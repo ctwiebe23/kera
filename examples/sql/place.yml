@@ -1,0 +1,9 @@
+name: Place
+columns:
+  - name: id
+    type: int
+    is_pk: true
+  - name: name
+    type: varchar(31)
+  - name: class
+    type: varchar(15)
