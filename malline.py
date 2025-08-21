@@ -8,48 +8,61 @@ EXAMPLE : malline select.sql.plate procedure.sql.plate table1.json table2.yml ta
 
 from enum import Flag, auto
 from pathlib import Path
-import yaml
 import json
 import sys
+import yaml  # From PyYAML
 
-OUT_FILE_KEY = "_out_file"
-OUT_DIR_OPT = ["-o", "--out"]
+OUT_FILE_KEY = "_out_file"  # When present in a data file, this value is used as the output filename
+OUT_DIR_OPT = ["-o", "--out"]  # Redirects all generated files to the given directory
 
 class Position(Flag):
-    IDLE = auto()
-    ESCAPED = auto()
-    HASH = auto()
-    SLOT = auto()
-    KEY = auto()
-    END_HASH = auto()
-    CONDITION_KEY_START = auto()
-    CONDITION_KEY = auto()
-    CONDITION_KEY_CLOSE = auto()
-    CONDITION_KEY_AFTER = auto()
-    CONDITION_BODY_START = auto()
-    CONDITION_BODY = auto()
-    CONDITION_BODY_AFTER = auto()
-    CONDITION_FALLBACK_START = auto()
-    CONDITION_FALLBACK = auto()
-    COLLECTION_BODY_START = auto()
-    COLLECTION_BODY = auto()
-    COLLECTION_JOIN = auto()
-    COLLECTION_JOIN_AFTER = auto()
+    """
+    The position of the program in a file.  Not an *index* --- rather, this is
+    more akin to the "state" of the program.
+    """
+    IDLE = auto()  # The default
+    ESCAPED = auto()  # Escape the next character if it is a "#"
+    HASH = auto()  # One "#" has been seen
+    SLOT = auto()  # Two "#"s have been seen
+    KEY = auto()  # Inside a key in a slot
+    END_HASH = auto()  # One "#" has been seen after a slot
+    CONDITION_KEY_START = auto()  # A bracket has been seen starting a slot
+    CONDITION_KEY = auto()  # Inside a key in a slot condition
+    CONDITION_KEY_CLOSE = auto()  # After a key in a slot condition
+    CONDITION_KEY_AFTER = auto()  # After a slot condition
+    CONDITION_BODY_START = auto()  # One "{" has been seen after a slot condition
+    CONDITION_BODY = auto()  # Two "{"s have been seen after a slot condition
+    CONDITION_BODY_AFTER = auto()  # After a slot condition body
+    CONDITION_FALLBACK_START = auto()  # One "{" has been seen after a slot condition body
+    CONDITION_FALLBACK = auto()  # Two "{"s have been seen after a slot condition body
+    COLLECTION_BODY_START = auto()  # One "{" has been seen after a key or a join string
+    COLLECTION_BODY = auto()  # Two "{"s have been seen after a key or a join string
+    COLLECTION_JOIN = auto()  # Inside a join string
+    COLLECTION_JOIN_AFTER = auto()  # After a join string
 
 VALID_KEY_CHARS = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_"
 WHITESPACE_CHARS = " \t\n"
 
 def resolve_key(data, key):
+    """
+    Returns the value of the key as found within the data.  If no record
+    exists, returns an empty string.
+    """
     if key in data:
         return data[key]
-    else:
-        return ""
+    return ""
 
 def trim_body(body):
+    """
+    Returns the given body with trimmed whitespace.
+    """
     start_index = 0
     end_index = len(body) - 1
 
     def safe():
+        """
+        Returns whether or not the start index and end index are valid values.
+        """
         return start_index < len(body) and end_index > -1
 
     while safe() and body[start_index] == " ":
@@ -67,9 +80,14 @@ def trim_body(body):
     return body[start_index:end_index+1]
 
 def get_body_end(plate, start_index):
+    """
+    Returns the index of the end of the slot body that starts at the given
+    start index.  The returned index is exclusive, and if there is no end
+    found for the given body, returns -1.
+    """
     num_open = 0
     i = start_index
- 
+
     while i < len(plate):
         if i == len(plate) - 1:
             return -1
@@ -77,9 +95,9 @@ def get_body_end(plate, start_index):
         if plate[i:i+2] == "}}":
             if num_open == 0:
                 return i
-            else:
-                num_open -= 1
-                i += 1
+
+            num_open -= 1
+            i += 1
         elif plate[i:i+2] == "{{":
             num_open += 1
             i += 1
@@ -87,14 +105,21 @@ def get_body_end(plate, start_index):
         i += 1
 
 def process(plate, data):
-    i = 0
-    buffer = ""
-    key = ""
-    join_str = "\n"
-    condition_status = True
-    current_position = Position.IDLE
+    """
+    Process the given string template using the given data.  Returns the
+    populated template.
+    """
+    i = 0  # The current index inside the template
+    buffer = ""  # The populated template, built character-by-character
+    key = ""  # The current key, as read from the template
+    join_str = "\n"  # The current join string, as read from the template.  Defaults to a newline
+    condition_status = True  # The status of the current slot condition
+    current_position = Position.IDLE  # The current position in the template
 
     def reprocess():
+        """
+        Backtracks by one character and sets the current position to idle.
+        """
         nonlocal i, current_position
         i -= 1
         current_position = Position.IDLE
@@ -150,7 +175,7 @@ def process(plate, data):
                 if char == "]":
                     value = resolve_key(data, key)
                     current_position = Position.CONDITION_KEY_AFTER
-                    condition_status = True if value else False
+                    condition_status = bool(value)
                 else:
                     print(f"expected '[' found {char}")
                     reprocess()
@@ -192,7 +217,7 @@ def process(plate, data):
                 elif char == "]":
                     value = resolve_key(data, key)
                     current_position = Position.CONDITION_KEY_AFTER
-                    condition_status = True if value else False
+                    condition_status = bool(value)
                 else:
                     print(f"expected ']' found {char}")
                     reprocess()
@@ -221,7 +246,7 @@ def process(plate, data):
                         body = trim_body(plate[i:end_index])
                         buffer += process(body, data)
                     current_position = Position.CONDITION_BODY_AFTER
-                    i = end_index + 1
+                    i = end_index + 1  # Skip closing body brackets
 
             case Position.CONDITION_BODY_AFTER:
                 if char == "{":
@@ -246,7 +271,7 @@ def process(plate, data):
                         body = trim_body(plate[i:end_index])
                         buffer += process(body, data)
                     current_position = Position.CONDITION_BODY_AFTER
-                    i = end_index + 1
+                    i = end_index + 1  # Skip closing body brackets
 
             case Position.COLLECTION_BODY:
                 end_index = get_body_end(plate, i)
@@ -255,22 +280,23 @@ def process(plate, data):
                     reprocess()
                 else:
                     body = trim_body(plate[i:end_index])
-                    sub_process = lambda d: process(body, d)
+                    sub_process = lambda sub_data: process(body, sub_data)
                     sub_datas = resolve_key(data, key)
                     if hasattr(sub_datas, "__iter__"):
                         results = map(sub_process, sub_datas)
-                        results = filter(lambda r: r, results)
+                        results = filter(lambda r: r, results)  # Ignore empty strings
                         buffer += join_str.join(results)
                     else:
                         print(f"expected key with type 'list' found {type(sub_datas)}")
-                    join_str = "\n"
+                    join_str = "\n"  # Reset join string after use
                     current_position = Position.IDLE
-                    i = end_index + 1
+                    i = end_index + 1  # Skip closing body brackets
 
             case Position.COLLECTION_JOIN:
                 if char == ")":
                     current_position = Position.COLLECTION_JOIN_AFTER
                 elif char == "\\":
+                    # All characters can be escaped in a join string
                     i += 1
                     if i < len(plate):
                         escaped_char = plate[i]
@@ -294,11 +320,11 @@ def process(plate, data):
     return buffer
 
 def main():
-    plates = []
-    datas = []
+    plates = []  # All template files; tuples of text contents and filenames
+    datas = []  # All data files; tuples of text contents and filenames
 
-    out_dir = Path(".")
-    expecting_out_dir = False
+    out_dir = Path(".")  # The output directory, defaults to the current directory
+    expecting_out_dir = False  # Whether or not the next arg is the output directory
 
     for arg in sys.argv[1:]:
         if expecting_out_dir:
@@ -317,30 +343,32 @@ def main():
             print(f"{file} is not a file")
             continue
 
-        name = file.stem
+        name = file.stem  # Output filename defaults to the filename minus the last extension
 
         if file.match("*.json"):
-            data = file.read_text()
+            data = file.read_text(encoding="utf-8")
             data = json.loads(data)
             datas.append((data, name))
         elif file.match("*.yaml") or file.match("*.yml"):
-            data = file.read_text()
+            data = file.read_text(encoding="utf-8")
             data = yaml.safe_load(data)
             datas.append((data, name))
         else:
             if not file.match("*.plate"):
+                # File does not need the .plate suffix stripped
                 name = file.name
-            plate = file.read_text()
+            plate = file.read_text(encoding="utf-8")
             plates.append((plate, name))
-    
+
     for plate, plate_name in plates:
         for data, data_name in datas:
             if OUT_FILE_KEY in data:
+                # Override output filename
                 name = data[OUT_FILE_KEY]
             else:
                 name = data_name + "_" + plate_name
             result = process(plate, data)
             (out_dir / Path(name)).write_text(result)
-    
+
 if __name__ == "__main__":
     main()
