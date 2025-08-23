@@ -6,7 +6,7 @@ date: AUG 19 2025
 
 # NAME
 
-ftf \-- Fill template files with structured data
+ftf — Fill template files with structured data
 
 # SYNOPSIS
 
