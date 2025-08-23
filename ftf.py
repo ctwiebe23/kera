@@ -1,9 +1,9 @@
 """
 AUTHOR  : Carston Wiebe
 DATE    : AUG 18 2025
-SHORT   : Populate templates with data
-USAGE   : malline PLATE_FILES... DATA_FILES...
-EXAMPLE : malline select.sql.plate procedure.sql.plate table1.json table2.yml table3.yaml
+SHORT   : Fill template files with structured data
+USAGE   : ftf PLATE_FILES... DATA_FILES...
+EXAMPLE : ftf procedure1.sql.plate procedure2.sql.plate table1.json table2.yml
 """
 
 from enum import Flag, auto
@@ -40,16 +40,28 @@ class Position(Flag):
     COLLECTION_JOIN = auto()  # Inside a join string
     COLLECTION_JOIN_AFTER = auto()  # After a join string
 
-VALID_KEY_CHARS = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_"
+VALID_KEY_CHARS = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_."
 WHITESPACE_CHARS = " \t\n"
 
 def resolve_key(data, key):
     """
     Returns the value of the key as found within the data.  If no record
-    exists, returns an empty string.
+    exists, returns an empty string.  Uses dot notation to get keys within
+    keys.
     """
+    parent_and_child = key.split(".", 2)
+
+    if len(parent_and_child) == 2:
+        [parent, child] = parent_and_child
+
+        if parent in data:
+            return resolve_key(data[parent], child)
+
+        return ""
+
     if key in data:
-        return data[key]
+        return data[key] if data[key] is not None else ""
+
     return ""
 
 def trim_body(body):
