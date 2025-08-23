@@ -1,0 +1,13 @@
+table: Record
+columns:
+  - name: create_date
+    type: DATE
+
+  - name: update_date
+    type: DATE
+
+  - name: id
+    type: INTEGER
+
+  - name: content
+    type: TEXT

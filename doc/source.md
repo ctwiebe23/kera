@@ -28,30 +28,24 @@ individual template file.
 To represent a simple key in a template file, surround it in double hashes:
 
 ```
-= ##title##
-by ##name## on ##date##
-
-##content##
+!((cat par/simple_document.typ))!
 ```
 
 And provide the data in your format of choice:
 
 ```
-{
-    "title": "ftf",
-    "name": "Carston Wiebe",
-    "date": "JAN 01 1970",
-    "content": "Fill template files with structured data."
-}
+!((cat par/simple_metadata.json))!
 ```
 
 This results in:
 
 ```
-= ftf
-by Carston Wiebe on JAN 01 1970
-
-Fill template files with structured data.
+!((
+    python3 src/ftf.py \
+        par/simple_document.typ par/simple_metadata.json \
+        --out par
+    cat par/simple_metadata_simple_document.typ
+))!
 ```
 
 Template files can have the extension .plate, but any file that isn't a data
@@ -96,60 +90,33 @@ body text, you can include other slots inside it and nest slots as much as you
 wish.  For instance:
 
 ```
-<div class="profile">
-    <h3>##name##</h3>
-    <ul class="inline">
-        ##[pronouns]{{ <li>##pronouns##</li> }}
-        ##[language]{{ <li>##language##</li> }}
-        ##[join-date]{{ <li>Joined ##joined-date##</li> }}
-    </ul>
-    ##[desc]{{
-        ##desc##
-    }}{{
-        <p>No bio provided.</p>
-    }}
-</div>
+!((cat par/profile.html))!
 ```
 
 With this, you process full profiles:
 
 ```
-name: Scofflaw Saxwulf
-pronouns: he/him
-language: ENG | FIN
-join-date: AUG 23 2025
-desc: <p>INSERT INTERESTING BIO HERE</p>
+!((cat par/scofflaw.yml))!
 ```
 
 ```
-<div class="profile">
-    <h3>Scofflaw Saxwulf</h3>
-    <ul class="inline">
-        <li>he/him</li>
-        <li>ENG | FIN</li>
-        <li>Joined </li>
-    </ul>
-    <p>INSERT INTERESTING BIO HERE</p>
-</div>
+!((
+    python3 src/ftf.py par/profile.html par/scofflaw.yml -o par
+    cat par/scofflaw_profile.html
+))!
 ```
 
 And partial profiles:
 
 ```
-name: Lusaka Hernesto
-pronouns: she/her
+!((cat par/lusaka.yml))!
 ```
 
 ```
-<div class="profile">
-    <h3>Lusaka Hernesto</h3>
-    <ul class="inline">
-        <li>she/her</li>
-        
-        
-    </ul>
-    <p>No bio provided.</p>
-</div>
+!((
+    python3 src/ftf.py par/profile.html par/lusaka.yml -o par
+    cat par/lusaka_profile.html
+))!
 ```
 
 ---
@@ -165,101 +132,36 @@ original data, but rather the keys nested insided the collection key.  This
 is easier shown than explained:
 
 ```
-table: Person
-joins:
-  - table: Place
-    alias: a
-    join-on: addressId
-
-  - table: Place
-    alias: w
-    join-on: workAddressId
-
-  - table: Job
-    alias: j
-    join-on: workId
+!((cat par/table.yml))!
 ```
 
 ```
-select  *
-from    ##table##
-##joins{{
-    join    ##table## ##alias## on ##join-on## = ##alias##.id
-}};
+!((cat par/select.sql))!
 ```
 
 ```
-select  *
-from    Person
-join    Place a on addressId = a.id
-join    Place w on workAddressId = w.id
-join    Job j on workId = j.id;
+!((
+    python3 src/ftf.py par/select.sql par/table.yml -o par
+    cat par/table_select.sql
+))!
 ```
 
 By default each member of the collection is joined with a newline, but you
 can alter this by providing a join string before the collection body:
 
 ```
-table: Record
-columns:
-  - name: create_date
-    type: DATE
-
-  - name: update_date
-    type: DATE
-
-  - name: id
-    type: INTEGER
-
-  - name: content
-    type: TEXT
+!((cat par/columns.yml))!
 ```
 
 ```
-CREATE PROCEDURE insert_into_##table##
-( ##columns(\n, ){{
-    p_##name## IN ##type##
-  }}
-)
-BEGIN
-
-    INSERT
-    INTO    ##table##
-            ( ##columns(\n            , ){{
-                ##name##
-              }}
-            )
-    VALUES  ( ##columns(\n            , ){{
-                p_##name##
-              }}
-            );
-
-END insert_into_##table##;
+!((cat par/select_columns.sql))!
 ```
 
 ```
-CREATE PROCEDURE insert_into_Record
-( p_create_date IN DATE
-, p_update_date IN DATE
-, p_id IN INTEGER
-, p_content IN TEXT
-)
-BEGIN
-
-    INSERT
-    INTO    Record
-            ( create_date
-            , update_date
-            , id
-            , content
-            )
-    VALUES  ( p_create_date
-            , p_update_date
-            , p_id
-            , p_content
-            );
-
-END insert_into_Record;
+!((
+    python3 src/ftf.py par/select_columns.sql par/columns.yml -o par
+    cat par/columns_select_columns.sql
+))!
 ```
 
 

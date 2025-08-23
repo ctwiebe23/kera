@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <!-- md addition start -->
+  <base target="_blank" rel="noopener noreferrer"></base>
+  <!-- md addition end -->
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Carston Wiebe" />
+  <title>ftf</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">* {
+padding:0;
+margin:0;
+box-sizing:border-box;
+}
+:root {
+font:13pt / 1.5 sans-serif;
+hyphens:auto;
+color:#333;
+background:#fff;
+}
+body {
+max-width:700px;
+min-height:100vh;
+padding:16px;
+margin-inline:auto;
+}
+.title {
+font-size:2rem;
+font-weight:normal;
+}
+h1:not(.title) {
+font-size:1.5rem;
+font-weight:bold;
+margin-top:16px;
+letter-spacing:0.05rem;
+}
+dd {
+margin-left:3ch;
+}
+ol, ul {
+margin-left:3ch;
+}
+.author, .date {
+display:inline;
+}
+.author::before {
+content:'by ';
+}
+.date::before {
+content:'on ';
+}
+p {
+margin-block:1rem;
+}
+@media (width > 700px) {
+p {
+text-align:justify;
+}
+}
+hr {
+margin-block:2rem;
+}
+pre > code {
+display:block;
+color:#fff;
+background:#333;
+padding:16px;
+margin-block:1rem;
+white-space:pre;
+overflow:auto;
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">ftf</h1>
+<p class="author">Carston Wiebe</p>
+<p class="date">AUG 19 2025</p>
+</header>
+<h1 id="name">NAME</h1>
+<p>ftf — Fill template files with structured data</p>
+<h1 id="synopsis">SYNOPSIS</h1>
+<p><strong>ftf</strong> <em>plate_files</em>… <em>data_files</em>…</p>
+<h1 id="options">OPTIONS</h1>
+<dl>
+<dt>-o, --out</dt>
+<dd>
+The directory in which to write all files. Defaults to the current
+directory.
+</dd>
+</dl>
+<h1 id="install">INSTALL</h1>
+<p>ftf can be installed using the pip package manager.</p>
+<pre><code>pipx install ftf</code></pre>
+<h1 id="description">DESCRIPTION</h1>
+<p>This program takes a collection of template files (.plate) and a
+collection of data files (.json or .yaml) and then uses the data to fill
+placeholder “keys” in the templates. Each individual data file produces
+an output for each individual template file.</p>
+<p>To represent a simple key in a template file, surround it in double
+hashes:</p>
+<pre><code>= ##title##
+by ##name## on ##date##
+
+##content##</code></pre>
+<p>And provide the data in your format of choice:</p>
+<pre><code>{
+    &quot;title&quot;: &quot;ftf&quot;,
+    &quot;name&quot;: &quot;Carston Wiebe&quot;,
+    &quot;date&quot;: &quot;JAN 01 1970&quot;,
+    &quot;content&quot;: &quot;Fill template files with structured data.&quot;
+}</code></pre>
+<p>This results in:</p>
+<pre><code>= ftf
+by Carston Wiebe on JAN 01 1970
+
+Fill template files with structured data.</code></pre>
+<p>Template files can have the extension .plate, but any file that isn’t
+a data file will be read as a template by default.</p>
+<p>Supported data filetypes are:</p>
+<ul>
+<li>JSON</li>
+<li>YAML</li>
+</ul>
+<p>If you want to use a data file as a template file, it must have the
+.plate extension, e.g. .json.plate</p>
+<p>The default filename of the filled template is the name of the data
+file (minus extension), an underscore, and the name of the template file
+(with extension, minus .plate if present). These output files can be
+redirected to a different directory with the --out option.</p>
+<p>As an example:</p>
+<pre><code>$ ls
+&gt; 123.sql 456.sql.plate abc.json def.yml
+$ ftf --out output 123.sql 456.sql.plate abc.json def.yml
+$ ls output
+&gt; abc_123.sql abc_456.sql def_123.sql def_456.sql</code></pre>
+<hr />
+<p>ftf also supports conditional keys and collection keys. Conditional
+keys can be represented as such:</p>
+<pre><code>##[ condition ]{{ if true }}{{ if false (optional) }}</code></pre>
+<p>The condition is simply a key found in the data, and it is true if
+the value of the key is truthy according to Python. If the key is not
+found, it is automatically false. The “body” of the conditional slot is
+treated as normal body text, you can include other slots inside it and
+nest slots as much as you wish. For instance:</p>
+<pre><code>&lt;div class=&quot;profile&quot;&gt;
+    &lt;h3&gt;##name##&lt;/h3&gt;
+    &lt;ul class=&quot;inline&quot;&gt;
+        ##[pronouns]{{ &lt;li&gt;##pronouns##&lt;/li&gt; }}
+        ##[language]{{ &lt;li&gt;##language##&lt;/li&gt; }}
+        ##[join-date]{{ &lt;li&gt;Joined ##joined-date##&lt;/li&gt; }}
+    &lt;/ul&gt;
+    ##[desc]{{
+        ##desc##
+    }}{{
+        &lt;p&gt;No bio provided.&lt;/p&gt;
+    }}
+&lt;/div&gt;</code></pre>
+<p>With this, you process full profiles:</p>
+<pre><code>name: Scofflaw Saxwulf
+pronouns: he/him
+language: ENG | FIN
+join-date: AUG 23 2025
+desc: &lt;p&gt;INSERT INTERESTING BIO HERE&lt;/p&gt;</code></pre>
+<pre><code>&lt;div class=&quot;profile&quot;&gt;
+    &lt;h3&gt;Scofflaw Saxwulf&lt;/h3&gt;
+    &lt;ul class=&quot;inline&quot;&gt;
+        &lt;li&gt;he/him&lt;/li&gt;
+        &lt;li&gt;ENG | FIN&lt;/li&gt;
+        &lt;li&gt;Joined &lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;p&gt;INSERT INTERESTING BIO HERE&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<p>And partial profiles:</p>
+<pre><code>name: Lusaka Hernesto
+pronouns: she/her</code></pre>
+<pre><code>&lt;div class=&quot;profile&quot;&gt;
+    &lt;h3&gt;Lusaka Hernesto&lt;/h3&gt;
+    &lt;ul class=&quot;inline&quot;&gt;
+        &lt;li&gt;she/her&lt;/li&gt;
+        
+        
+    &lt;/ul&gt;
+    &lt;p&gt;No bio provided.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<hr />
+<p>Collection keys are represented as:</p>
+<pre><code>##collection{{ body for each collection member }}</code></pre>
+<p>In a collection body, the “scope” that contains available keys is not
+the original data, but rather the keys nested insided the collection
+key. This is easier shown than explained:</p>
+<pre><code>table: Person
+joins:
+  - table: Place
+    alias: a
+    join-on: addressId
+
+  - table: Place
+    alias: w
+    join-on: workAddressId
+
+  - table: Job
+    alias: j
+    join-on: workId</code></pre>
+<pre><code>select  *
+from    ##table##
+##joins{{
+    join    ##table## ##alias## on ##join-on## = ##alias##.id
+}};</code></pre>
+<pre><code>select  *
+from    Person
+join    Place a on addressId = a.id
+join    Place w on workAddressId = w.id
+join    Job j on workId = j.id;</code></pre>
+<p>By default each member of the collection is joined with a newline,
+but you can alter this by providing a join string before the collection
+body:</p>
+<pre><code>table: Record
+columns:
+  - name: create_date
+    type: DATE
+
+  - name: update_date
+    type: DATE
+
+  - name: id
+    type: INTEGER
+
+  - name: content
+    type: TEXT</code></pre>
+<pre><code>CREATE PROCEDURE insert_into_##table##
+( ##columns(\n, ){{
+    p_##name## IN ##type##
+  }}
+)
+BEGIN
+
+    INSERT
+    INTO    ##table##
+            ( ##columns(\n            , ){{
+                ##name##
+              }}
+            )
+    VALUES  ( ##columns(\n            , ){{
+                p_##name##
+              }}
+            );
+
+END insert_into_##table##;</code></pre>
+<pre><code>CREATE PROCEDURE insert_into_Record
+( p_create_date IN DATE
+, p_update_date IN DATE
+, p_id IN INTEGER
+, p_content IN TEXT
+)
+BEGIN
+
+    INSERT
+    INTO    Record
+            ( create_date
+            , update_date
+            , id
+            , content
+            )
+    VALUES  ( p_create_date
+            , p_update_date
+            , p_id
+            , p_content
+            );
+
+END insert_into_Record;</code></pre>
+<h1 id="bugs">BUGS</h1>
+<ol type="1">
+<li><p>If a key in YAML is made up of numbers and only numbers, the YAML
+parser will store it as an integer, which won’t be resolved properly
+when ftf tries to retrieve it as a string. To prevent this, surround
+such keys with double quotes:</p>
+<pre><code># bad:
+1: this won&#39;t be resolved
+# good:
+&quot;1&quot;: this WILL be resolved</code></pre></li>
+</ol>
+</body>
+</html>

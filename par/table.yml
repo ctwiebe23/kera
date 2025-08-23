@@ -1,0 +1,13 @@
+table: Person
+joins:
+  - table: Place
+    alias: a
+    join-on: addressId
+
+  - table: Place
+    alias: w
+    join-on: workAddressId
+
+  - table: Job
+    alias: j
+    join-on: workId

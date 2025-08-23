@@ -77,16 +77,10 @@ def trim_body(body):
         """
         return start_index < len(body) and end_index > -1
 
-    while safe() and body[start_index] == " ":
+    while safe() and body[start_index] in WHITESPACE_CHARS:
         start_index += 1
 
-    if safe() and body[start_index] == "\n":
-        start_index += 1
-
-    while safe() and body[end_index] == " ":
-        end_index -= 1
-
-    if safe() and body[end_index] == "\n":
+    while safe() and body[end_index] in WHITESPACE_CHARS:
         end_index -= 1
 
     return body[start_index:end_index+1]
