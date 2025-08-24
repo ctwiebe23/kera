@@ -4,12 +4,15 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "kera"
-version = "1.0.0"
+version = "1.0.1"
 authors = [{name = "Carston Wiebe", email = "ctwiebe23@gmail.com"}]
 description = "Fill template files with structured data"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
+dependencies = [
+  "pyyaml",
+]
 
 [project.urls]
 Home = "https://carston.zip/kera"
