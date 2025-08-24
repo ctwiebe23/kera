@@ -1,5 +1,5 @@
-select  *
-from    Person
-join    Place a on addressId = a.id
-join    Place w on workAddressId = w.id
-join    Job j on workId = j.id;
+SELECT  *
+FROM    Person
+JOIN    Place a ON addressId = a.id
+JOIN    Place w ON workAddressId = w.id
+JOIN    Job j ON workId = j.id;

@@ -181,19 +181,19 @@ joins:
 ```
 
 ```
-select  *
-from    ##table##
+SELECT  *
+FROM    ##table##
 ##joins{{
-    join    ##table## ##alias## on ##join-on## = ##alias##.id
+    JOIN    ##table## ##alias## ON ##join-on## = ##alias##.id
 }};
 ```
 
 ```
-select  *
-from    Person
-join    Place a on addressId = a.id
-join    Place w on workAddressId = w.id
-join    Job j on workId = j.id;
+SELECT  *
+FROM    Person
+JOIN    Place a ON addressId = a.id
+JOIN    Place w ON workAddressId = w.id
+JOIN    Job j ON workId = j.id;
 ```
 
 By default each member of the collection is joined with a newline, but you

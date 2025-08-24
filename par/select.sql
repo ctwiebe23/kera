@@ -1,5 +1,5 @@
-select  *
-from    ##table##
+SELECT  *
+FROM    ##table##
 ##joins{{
-    join    ##table## ##alias## on ##join-on## = ##alias##.id
+    JOIN    ##table## ##alias## ON ##join-on## = ##alias##.id
 }};
