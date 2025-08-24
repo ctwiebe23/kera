@@ -2,8 +2,8 @@
 AUTHOR  : Carston Wiebe
 DATE    : AUG 18 2025
 SHORT   : Fill template files with structured data
-USAGE   : ftf PLATE_FILES... DATA_FILES...
-EXAMPLE : ftf procedure1.sql.plate procedure2.sql.plate table1.json table2.yml
+USAGE   : kera PLATE_FILES... DATA_FILES...
+EXAMPLE : kera procedure1.sql.plate procedure2.sql.plate table1.json table2.yml
 """
 
 from enum import Flag, auto

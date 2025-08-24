@@ -8,7 +8,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Carston Wiebe" />
-  <title>ftf</title>
+  <title>kera</title>
   <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -91,14 +91,14 @@ overflow:auto;
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">ftf</h1>
+<h1 class="title">kera</h1>
 <p class="author">Carston Wiebe</p>
 <p class="date">AUG 19 2025</p>
 </header>
 <h1 id="name">NAME</h1>
-<p>ftf — Fill template files with structured data</p>
+<p>kera — Fill template files with structured data</p>
 <h1 id="synopsis">SYNOPSIS</h1>
-<p><strong>ftf</strong> <em>plate_files</em>… <em>data_files</em>…</p>
+<p><strong>kera</strong> <em>plate_files</em>… <em>data_files</em>…</p>
 <h1 id="options">OPTIONS</h1>
 <dl>
 <dt>-o, --out</dt>
@@ -108,8 +108,8 @@ directory.
 </dd>
 </dl>
 <h1 id="install">INSTALL</h1>
-<p>ftf can be installed using the pip package manager.</p>
-<pre><code>pipx install ftf</code></pre>
+<p>kera can be installed using the pip package manager.</p>
+<pre><code>pipx install kera</code></pre>
 <h1 id="description">DESCRIPTION</h1>
 <p>This program takes a collection of template files (.plate) and a
 collection of data files (.json or .yaml) and then uses the data to fill
@@ -123,13 +123,13 @@ by ##name## on ##date##
 ##content##</code></pre>
 <p>And provide the data in your format of choice:</p>
 <pre><code>{
-    &quot;title&quot;: &quot;ftf&quot;,
+    &quot;title&quot;: &quot;kera&quot;,
     &quot;name&quot;: &quot;Carston Wiebe&quot;,
     &quot;date&quot;: &quot;JAN 01 1970&quot;,
     &quot;content&quot;: &quot;Fill template files with structured data.&quot;
 }</code></pre>
 <p>This results in:</p>
-<pre><code>= ftf
+<pre><code>= kera
 by Carston Wiebe on JAN 01 1970
 
 Fill template files with structured data.</code></pre>
@@ -149,11 +149,11 @@ redirected to a different directory with the --out option.</p>
 <p>As an example:</p>
 <pre><code>$ ls
 &gt; 123.sql 456.sql.plate abc.json def.yml
-$ ftf --out output 123.sql 456.sql.plate abc.json def.yml
+$ kera --out output 123.sql 456.sql.plate abc.json def.yml
 $ ls output
 &gt; abc_123.sql abc_456.sql def_123.sql def_456.sql</code></pre>
 <hr />
-<p>ftf also supports conditional keys and collection keys. Conditional
+<p>kera also supports conditional keys and collection keys. Conditional
 keys can be represented as such:</p>
 <pre><code>##[ condition ]{{ if true }}{{ if false (optional) }}</code></pre>
 <p>The condition is simply a key found in the data, and it is true if
@@ -291,7 +291,7 @@ END insert_into_Record;</code></pre>
 <ol type="1">
 <li><p>If a key in YAML is made up of numbers and only numbers, the YAML
 parser will store it as an integer, which won’t be resolved properly
-when ftf tries to retrieve it as a string. To prevent this, surround
+when kera tries to retrieve it as a string. To prevent this, surround
 such keys with double quotes:</p>
 <pre><code># bad:
 1: this won&#39;t be resolved

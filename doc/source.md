@@ -1,10 +1,10 @@
 # NAME
 
-ftf — Fill template files with structured data
+kera — Fill template files with structured data
 
 # SYNOPSIS
 
-**ftf** *plate_files*... *data_files*...
+**kera** *plate_files*... *data_files*...
 
 # OPTIONS
 
@@ -14,9 +14,9 @@ ftf — Fill template files with structured data
 
 # INSTALL
 
-ftf can be installed using the pip package manager.
+kera can be installed using the pip package manager.
 
-    pipx install ftf
+    pipx install kera
 
 # DESCRIPTION
 
@@ -41,7 +41,7 @@ This results in:
 
 ```
 !((
-    python3 src/ftf.py \
+    python3 src/kera.py \
         par/simple_document.typ par/simple_metadata.json \
         --out par
     cat par/simple_metadata_simple_document.typ
@@ -69,14 +69,14 @@ As an example:
 ```
 $ ls
 > 123.sql 456.sql.plate abc.json def.yml
-$ ftf --out output 123.sql 456.sql.plate abc.json def.yml
+$ kera --out output 123.sql 456.sql.plate abc.json def.yml
 $ ls output
 > abc_123.sql abc_456.sql def_123.sql def_456.sql
 ```
 
 ---
 
-ftf also supports conditional keys and collection keys.  Conditional keys can
+kera also supports conditional keys and collection keys.  Conditional keys can
 be represented as such:
 
 ```
@@ -101,7 +101,7 @@ With this, you process full profiles:
 
 ```
 !((
-    python3 src/ftf.py par/profile.html par/scofflaw.yml -o par
+    python3 src/kera.py par/profile.html par/scofflaw.yml -o par
     cat par/scofflaw_profile.html
 ))!
 ```
@@ -114,7 +114,7 @@ And partial profiles:
 
 ```
 !((
-    python3 src/ftf.py par/profile.html par/lusaka.yml -o par
+    python3 src/kera.py par/profile.html par/lusaka.yml -o par
     cat par/lusaka_profile.html
 ))!
 ```
@@ -141,7 +141,7 @@ is easier shown than explained:
 
 ```
 !((
-    python3 src/ftf.py par/select.sql par/table.yml -o par
+    python3 src/kera.py par/select.sql par/table.yml -o par
     cat par/table_select.sql
 ))!
 ```
@@ -159,7 +159,7 @@ can alter this by providing a join string before the collection body:
 
 ```
 !((
-    python3 src/ftf.py par/select_columns.sql par/columns.yml -o par
+    python3 src/kera.py par/select_columns.sql par/columns.yml -o par
     cat par/columns_select_columns.sql
 ))!
 ```
@@ -168,7 +168,7 @@ can alter this by providing a join string before the collection body:
 # BUGS
 
 1.  If a key in YAML is made up of numbers and only numbers, the YAML parser
-    will store it as an integer, which won't be resolved properly when ftf
+    will store it as an integer, which won't be resolved properly when kera
     tries to retrieve it as a string.  To prevent this, surround such keys with
     double quotes:
 

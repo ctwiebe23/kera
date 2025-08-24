@@ -1,10 +1,10 @@
 # NAME
 
-ftf — Fill template files with structured data
+kera — Fill template files with structured data
 
 # SYNOPSIS
 
-**ftf** *plate_files*... *data_files*...
+**kera** *plate_files*... *data_files*...
 
 # OPTIONS
 
@@ -14,9 +14,9 @@ ftf — Fill template files with structured data
 
 # INSTALL
 
-ftf can be installed using the pip package manager.
+kera can be installed using the pip package manager.
 
-    pipx install ftf
+    pipx install kera
 
 # DESCRIPTION
 
@@ -38,7 +38,7 @@ And provide the data in your format of choice:
 
 ```
 {
-    "title": "ftf",
+    "title": "kera",
     "name": "Carston Wiebe",
     "date": "JAN 01 1970",
     "content": "Fill template files with structured data."
@@ -48,7 +48,7 @@ And provide the data in your format of choice:
 This results in:
 
 ```
-= ftf
+= kera
 by Carston Wiebe on JAN 01 1970
 
 Fill template files with structured data.
@@ -75,14 +75,14 @@ As an example:
 ```
 $ ls
 > 123.sql 456.sql.plate abc.json def.yml
-$ ftf --out output 123.sql 456.sql.plate abc.json def.yml
+$ kera --out output 123.sql 456.sql.plate abc.json def.yml
 $ ls output
 > abc_123.sql abc_456.sql def_123.sql def_456.sql
 ```
 
 ---
 
-ftf also supports conditional keys and collection keys.  Conditional keys can
+kera also supports conditional keys and collection keys.  Conditional keys can
 be represented as such:
 
 ```
@@ -266,7 +266,7 @@ END insert_into_Record;
 # BUGS
 
 1.  If a key in YAML is made up of numbers and only numbers, the YAML parser
-    will store it as an integer, which won't be resolved properly when ftf
+    will store it as an integer, which won't be resolved properly when kera
     tries to retrieve it as a string.  To prevent this, surround such keys with
     double quotes:
 
