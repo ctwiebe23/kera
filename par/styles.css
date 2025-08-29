@@ -54,6 +54,10 @@ p {
   margin-block:1rem;
 }
 
+dt {
+  margin-top:1rem;
+}
+
 @media (width > 700px) {
   p {
     text-align:justify;

@@ -1,3 +1,3 @@
-improve cli using argparser or similar library
 allow the escaping of closing body brackets
 investigate putting join string after collection body
+document out file key

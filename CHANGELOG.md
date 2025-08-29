@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.1.0 on 2025-08-28
+
+### Added
+
+- Proper command line interface using the argparser library
+
 ## 1.0.1 on 2025-08-23
 
 ### Fixed

@@ -1,19 +1,23 @@
 """
 AUTHOR  : Carston Wiebe
-DATE    : AUG 18 2025
+DATE    : AUG 28 2025
 SHORT   : Fill template files with structured data
-USAGE   : kera PLATE_FILES... DATA_FILES...
+USAGE   : kera [-h] [--out-dir OUT_DIR] PLATE_FILES... DATA_FILES...
 EXAMPLE : kera procedure1.sql.plate procedure2.sql.plate table1.json table2.yml
 """
 
 from enum import Flag, auto
 from pathlib import Path
+import argparse
 import json
 import sys
 import yaml  # From PyYAML
 
+# Return codes
+RETCODE_OK = 0  # Successful execution
+RETCODE_NOCREATE_OUTDIR = 1  # Unable to create or find the given output directory
+
 OUT_FILE_KEY = "_out_file"  # When present in a data file, this value is used as the output filename
-OUT_DIR_OPT = ["-o", "--out"]  # Redirects all generated files to the given directory
 
 class Position(Flag):
     """
@@ -306,7 +310,11 @@ def process(plate, data):
                     i += 1
                     if i < len(plate):
                         escaped_char = plate[i]
-                        join_str += "\n" if escaped_char == "n" else escaped_char
+                        join_str += (
+                            "\n" if escaped_char == "n"
+                            else "\t" if escaped_char == "t"
+                            else escaped_char
+                        )
                 else:
                     join_str += char
 
@@ -325,26 +333,41 @@ def process(plate, data):
 
     return buffer
 
+
 def main():
+    parser = argparse.ArgumentParser(
+        prog="kera",
+        description="Fill template files with structured data",
+        epilog="README can be found at https://ctwiebe23.github.io/kera",
+    )
+    
+    parser.add_argument(
+        "files",
+        nargs="*",
+        help="The input files, both data and plate"
+    )
+    
+    parser.add_argument(
+        "-o", "--out-dir",
+        default=".",
+        help="The directory in which to write all files; defaults to the current directory",
+    )
+    
+    args = parser.parse_args()
+    out_dir = Path(args.out_dir)
+    files = map(Path, args.files)
+    
+    if not out_dir.is_dir():
+        try:
+            out_dir.mkdir()
+        except:
+            print(f"unable to create or find directory {out_dir}")
+            sys.exit(RETCODE_NOCREATE_OUTDIR)
+
     plates = []  # All template files; tuples of text contents and filenames
     datas = []  # All data files; tuples of text contents and filenames
 
-    out_dir = Path(".")  # The output directory, defaults to the current directory
-    expecting_out_dir = False  # Whether or not the next arg is the output directory
-
-    for arg in sys.argv[1:]:
-        if expecting_out_dir:
-            out_dir = Path(arg)
-            if not out_dir.is_dir():
-                out_dir.mkdir()
-            expecting_out_dir = False
-            continue
-
-        if arg in OUT_DIR_OPT:
-            expecting_out_dir = True
-            continue
-
-        file = Path(arg)
+    for file in files:
         if not file.is_file():
             print(f"{file} is not a file")
             continue

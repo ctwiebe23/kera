@@ -70,6 +70,9 @@ content:'on ';
 p {
 margin-block:1rem;
 }
+dt {
+margin-top:1rem;
+}
 @media (width > 700px) {
 p {
 text-align:justify;
@@ -93,7 +96,7 @@ overflow:auto;
 <header id="title-block-header">
 <h1 class="title">kera</h1>
 <p class="author">Carston Wiebe</p>
-<p class="date">AUG 19 2025</p>
+<p class="date">AUG 28 2025</p>
 </header>
 <h1 id="name">NAME</h1>
 <p>kera — Fill template files with structured data</p>
@@ -101,7 +104,7 @@ overflow:auto;
 <p><strong>kera</strong> <em>plate_files</em>… <em>data_files</em>…</p>
 <h1 id="options">OPTIONS</h1>
 <dl>
-<dt>-o, --out</dt>
+<dt>-o, --out-dir</dt>
 <dd>
 The directory in which to write all files. Defaults to the current
 directory.
@@ -287,6 +290,17 @@ BEGIN
             );
 
 END insert_into_Record;</code></pre>
+<h1 id="return-codes">RETURN CODES</h1>
+<dl>
+<dt>0, RETCODE_OK</dt>
+<dd>
+Code execution was successful.
+</dd>
+<dt>1, RETCODE_NOCREATE_OUTDIR</dt>
+<dd>
+Unable to create or find the given output directory.
+</dd>
+</dl>
 <h1 id="bugs">BUGS</h1>
 <ol type="1">
 <li><p>If a key in YAML is made up of numbers and only numbers, the YAML

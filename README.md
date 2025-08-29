@@ -8,7 +8,7 @@ kera — Fill template files with structured data
 
 # OPTIONS
 
--o, \--out
+-o, \--out-dir
 :   The directory in which to write all files.  Defaults to the current
     directory.
 
@@ -262,6 +262,13 @@ BEGIN
 END insert_into_Record;
 ```
 
+# RETURN CODES
+
+0, RETCODE_OK
+:   Code execution was successful.
+
+1, RETCODE_NOCREATE_OUTDIR
+:   Unable to create or find the given output directory.
 
 # BUGS
 
