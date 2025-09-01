@@ -1,5 +1,5 @@
 """
-AUTHOR  : Carston Wiebe
+AUTHOR  : C Wiebe
 DATE    : AUG 28 2025
 SHORT   : Fill template files with structured data
 USAGE   : kera [-h] [--out-dir OUT_DIR] PLATE_FILES... DATA_FILES...

@@ -39,7 +39,7 @@ And provide the data in your format of choice:
 ```
 {
     "title": "kera",
-    "name": "Carston Wiebe",
+    "name": "C Wiebe",
     "date": "JAN 01 1970",
     "content": "Fill template files with structured data."
 }
@@ -49,7 +49,7 @@ This results in:
 
 ```
 = kera
-by Carston Wiebe on JAN 01 1970
+by C Wiebe on JAN 01 1970
 
 Fill template files with structured data.
 ```

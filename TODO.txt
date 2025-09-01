@@ -1,5 +1,7 @@
-allow the escaping of closing body brackets
-investigate putting join string after collection body
-document out file key
-implement proper conditions
-implement key fallback to upper terms
+allow the escaping of closing body brackets @feature
+out file key @documentation
+dot notation @documentation
+implement proper conditions @feature
+implement key fallback to upper terms @feature
+cli vs api @documentation
+normal collections @feature
