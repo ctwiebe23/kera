@@ -192,10 +192,10 @@ surrounded by parenthesis:
 
 # RETURN CODES
 
-0, RETCODE_OK
+0
 :   Code execution was successful.
 
-1, RETCODE_NOCREATE_OUTDIR
+1
 :   Unable to create or find the given output directory.
 
 # BUGS
@@ -211,3 +211,7 @@ surrounded by parenthesis:
     # good:
     "1": this WILL be resolved
     ```
+
+# SEE ALSO
+
+Source code can be found at <https://github.com/ctwiebe23/kera>
