@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.2.0 on 2025-09-04
+
+### Changed
+
+- Made the default join string smarter (it now indents each entry to the same
+  level automatically)
+
 ## 1.1.0 on 2025-08-28
 
 ### Added

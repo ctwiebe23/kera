@@ -259,272 +259,53 @@ src: url(data:font/ttf;base64,AAEAAAARAQAABAAQR0RFRgvRCskAAAJgAAAAckdQT1Ndqu7ZAA
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#name" id="toc-name">NAME</a></li>
-<li><a href="#synopsis" id="toc-synopsis">SYNOPSIS</a></li>
-<li><a href="#options" id="toc-options">OPTIONS</a></li>
-<li><a href="#install" id="toc-install">INSTALL</a></li>
-<li><a href="#description" id="toc-description">DESCRIPTION</a>
+<li><a href="#changelog" id="toc-changelog">CHANGELOG</a>
 <ul>
-<li><a href="#glossary" id="toc-glossary">GLOSSARY</a></li>
-<li><a href="#filenames" id="toc-filenames">FILENAMES</a></li>
-<li><a href="#conditional-slots" id="toc-conditional-slots">CONDITIONAL
-SLOTS</a></li>
-<li><a href="#collection-slots" id="toc-collection-slots">COLLECTION
-SLOTS</a></li>
+<li><a href="#on-2025-09-04" id="toc-on-2025-09-04">1.2.0 on
+2025-09-04</a>
+<ul>
+<li><a href="#changed" id="toc-changed">Changed</a></li>
 </ul></li>
-<li><a href="#return-codes" id="toc-return-codes">RETURN CODES</a></li>
-<li><a href="#bugs" id="toc-bugs">BUGS</a></li>
-<li><a href="#see-also" id="toc-see-also">SEE ALSO</a></li>
+<li><a href="#on-2025-08-28" id="toc-on-2025-08-28">1.1.0 on
+2025-08-28</a>
+<ul>
+<li><a href="#added" id="toc-added">Added</a></li>
+</ul></li>
+<li><a href="#on-2025-08-23" id="toc-on-2025-08-23">1.0.1 on
+2025-08-23</a>
+<ul>
+<li><a href="#fixed" id="toc-fixed">Fixed</a></li>
+</ul></li>
+<li><a href="#on-2025-08-23-1" id="toc-on-2025-08-23-1">1.0.0 on
+2025-08-23</a>
+<ul>
+<li><a href="#added-1" id="toc-added-1">Added</a></li>
+</ul></li>
+</ul></li>
 </ul>
 </nav>
-<h1 id="name">NAME</h1>
-<p>kera — Fill template files with structured data</p>
-<h1 id="synopsis">SYNOPSIS</h1>
-<p><strong>kera</strong> <em>plate_files</em>… <em>data_files</em>…</p>
-<h1 id="options">OPTIONS</h1>
-<dl>
-<dt>-o, --out-dir</dt>
-<dd>
-The directory in which to write all files. Defaults to the current
-directory.
-</dd>
-</dl>
-<h1 id="install">INSTALL</h1>
-<p>kera can be installed using the pip package manager.</p>
-<pre><code>pipx install kera</code></pre>
-<h1 id="description">DESCRIPTION</h1>
-<p>This program takes a collection of template files (.plate) and a
-collection of data files (.json or .yaml) and then uses the data to fill
-placeholder “slots” in the templates. Each individual data file produces
-an output for each individual template file.</p>
-<p>To represent a simple slot in a template file, surround it in double
-hashes:</p>
-<pre><code>= ##title##
-by ##name## on ##date##
-
-##content##</code></pre>
-<p>And provide the data in your format of choice:</p>
-<pre><code>{
-    &quot;title&quot;: &quot;kera&quot;,
-    &quot;name&quot;: &quot;C Wiebe&quot;,
-    &quot;date&quot;: &quot;JAN 01 1970&quot;,
-    &quot;content&quot;: &quot;Fill template files with structured data.&quot;
-}</code></pre>
-<p>This results in:</p>
-<pre><code>= kera
-by C Wiebe on JAN 01 1970
-
-Fill template files with structured data.</code></pre>
-<h2 id="glossary">GLOSSARY</h2>
-<dl>
-<dt>plate file</dt>
-<dd>
-A file containing a template; optionally can have the extension .plate
-</dd>
-<dt>data file</dt>
-<dd>
-A file containing structured data; can be either a JSON file or a YAML
-file
-</dd>
-<dt>slot</dt>
-<dd>
-A string in a plate file that will be replaced with data from a data
-file
-</dd>
-<dt>key</dt>
-<dd>
-The identifier used to select which value from a data file is used to
-fill any given slot; the key in a key / value pair
-</dd>
-<dt>conditional slot</dt>
-<dd>
-A slot that has a condition attached to it
-</dd>
-<dt>collection slot</dt>
-<dd>
-A slot whose key points to a collection of nested data
-</dd>
-</dl>
-<h2 id="filenames">FILENAMES</h2>
-<p>Template files can have the extension .plate, but any file that isn’t
-a data file will be read as a template by default.</p>
-<p>Supported data filetypes are:</p>
+<h1 id="changelog">CHANGELOG</h1>
+<h2 id="on-2025-09-04">1.2.0 on 2025-09-04</h2>
+<h3 id="changed">Changed</h3>
 <ul>
-<li>JSON</li>
-<li>YAML</li>
+<li>Made the default join string smarter (it now indents each entry to
+the same level automatically)</li>
 </ul>
-<p>If you want to use a data file as a template file, it must have the
-.plate extension, e.g. .json.plate</p>
-<p>The default filename of the filled template is the name of the data
-file (minus extension), an underscore, and the name of the template file
-(with extension, minus .plate if present). These output files can be
-redirected to a different directory with the --out option.</p>
-<p>As an example:</p>
-<pre><code>$ ls
-&gt; 123.sql 456.sql.plate abc.json def.yml
-$ kera --out output 123.sql 456.sql.plate abc.json def.yml
-$ ls output
-&gt; abc_123.sql abc_456.sql def_123.sql def_456.sql</code></pre>
-<h2 id="conditional-slots">CONDITIONAL SLOTS</h2>
-<p>kera also supports other types of slots. Conditional slots (analogous
-to if statements) can be represented as such:</p>
-<pre><code>##[ condition ]{{ if true }}{{ if false (optional) }}</code></pre>
-<p>The condition is simply a key found in the data, and it is true if
-the value of the key is truthy according to Python. If the key is not
-found, it is automatically false. The “body” of the conditional slot is
-treated the same as the rest of the text; you can include other slots
-inside it and nest slots as much as you wish.</p>
-<p>An example of conditional slots in use:</p>
-<pre><code>&lt;div class=&quot;profile&quot;&gt;
-    &lt;h3&gt;##name##&lt;/h3&gt;
-    &lt;ul class=&quot;inline&quot;&gt;
-        ##[pronouns]{{ &lt;li&gt;##pronouns##&lt;/li&gt; }}
-        ##[language]{{ &lt;li&gt;##language##&lt;/li&gt; }}
-        ##[join-date]{{ &lt;li&gt;Joined ##join-date##&lt;/li&gt; }}
-    &lt;/ul&gt;
-    ##[desc]{{
-        ##desc##
-    }}{{
-        &lt;p&gt;No bio provided.&lt;/p&gt;
-    }}
-&lt;/div&gt;</code></pre>
-<p>With this, you can process both full profiles:</p>
-<pre><code>name: Scofflaw Saxwulf
-pronouns: he/him
-language: ENG | FIN
-join-date: AUG 23 2025
-desc: &lt;p&gt;INSERT INTERESTING BIO HERE&lt;/p&gt;</code></pre>
-<pre><code>&lt;div class=&quot;profile&quot;&gt;
-    &lt;h3&gt;Scofflaw Saxwulf&lt;/h3&gt;
-    &lt;ul class=&quot;inline&quot;&gt;
-        &lt;li&gt;he/him&lt;/li&gt;
-        &lt;li&gt;ENG | FIN&lt;/li&gt;
-        &lt;li&gt;Joined AUG 23 2025&lt;/li&gt;
-    &lt;/ul&gt;
-    &lt;p&gt;INSERT INTERESTING BIO HERE&lt;/p&gt;
-&lt;/div&gt;</code></pre>
-<p>And partial profiles:</p>
-<pre><code>name: Lusaka Hernesto
-pronouns: she/her</code></pre>
-<pre><code>&lt;div class=&quot;profile&quot;&gt;
-    &lt;h3&gt;Lusaka Hernesto&lt;/h3&gt;
-    &lt;ul class=&quot;inline&quot;&gt;
-        &lt;li&gt;she/her&lt;/li&gt;
-        
-        
-    &lt;/ul&gt;
-    &lt;p&gt;No bio provided.&lt;/p&gt;
-&lt;/div&gt;</code></pre>
-<h2 id="collection-slots">COLLECTION SLOTS</h2>
-<p>Collection slots (analogous to for loops) are represented as:</p>
-<pre><code>##collection{{ body for each collection member }}</code></pre>
-<p>In a collection body, the “scope” that contains available keys is not
-the original data, but rather the keys nested inside the collection key.
-This is easier shown than explained:</p>
-<pre><code>table: Person
-joins:
-  - table: Place
-    alias: a
-    join-on: addressId
-
-  - table: Place
-    alias: w
-    join-on: workAddressId
-
-  - table: Job
-    alias: j
-    join-on: workId</code></pre>
-<pre><code>SELECT  *
-FROM    ##table##
-##joins{{
-    JOIN    ##table## ##alias## ON ##join-on## = ##alias##.id
-}};</code></pre>
-<pre><code>SELECT  *
-FROM    Person
-JOIN    Place a ON addressId = a.id
-JOIN    Place w ON workAddressId = w.id
-JOIN    Job j ON workId = j.id;</code></pre>
-<p>By default each member of the collection is joined with a newline,
-but you can alter this by providing a join string before the collection
-body that is surrounded by parenthesis:</p>
-<pre><code>table: Record
-columns:
-  - name: create_date
-    type: DATE
-
-  - name: update_date
-    type: DATE
-
-  - name: id
-    type: INTEGER
-
-  - name: content
-    type: TEXT</code></pre>
-<pre><code>CREATE PROCEDURE insert_into_##table##
-( ##columns(\n, ){{
-    p_##name## IN ##type##
-  }}
-)
-BEGIN
-
-    INSERT
-    INTO    ##table##
-            ( ##columns(\n            , ){{
-                ##name##
-              }}
-            )
-    VALUES  ( ##columns(\n            , ){{
-                p_##name##
-              }}
-            );
-
-END insert_into_##table##;</code></pre>
-<pre><code>CREATE PROCEDURE insert_into_Record
-( p_create_date IN DATE
-, p_update_date IN DATE
-, p_id IN INTEGER
-, p_content IN TEXT
-)
-BEGIN
-
-    INSERT
-    INTO    Record
-            ( create_date
-            , update_date
-            , id
-            , content
-            )
-    VALUES  ( p_create_date
-            , p_update_date
-            , p_id
-            , p_content
-            );
-
-END insert_into_Record;</code></pre>
-<h1 id="return-codes">RETURN CODES</h1>
-<dl>
-<dt>0</dt>
-<dd>
-Code execution was successful.
-</dd>
-<dt>1</dt>
-<dd>
-Unable to create or find the given output directory.
-</dd>
-</dl>
-<h1 id="bugs">BUGS</h1>
-<ol type="1">
-<li><p>If a key in YAML is made up of numbers and only numbers, the YAML
-parser will store it as an integer, which won’t be resolved properly
-when kera tries to retrieve it as a string. To prevent this, surround
-such keys with double quotes:</p>
-<pre><code># bad:
-1: this won&#39;t be resolved
-# good:
-&quot;1&quot;: this WILL be resolved</code></pre></li>
-</ol>
-<h1 id="see-also">SEE ALSO</h1>
-<p>Source code can be found at <a href="https://github.com/ctwiebe23/kera" class="uri">https://github.com/ctwiebe23/kera</a>.</p>
-<p>Changelog can be found at <a href="https://ctwiebe23.github.io/kera/changelog" class="uri">https://ctwiebe23.github.io/kera/changelog</a>.</p>
+<h2 id="on-2025-08-28">1.1.0 on 2025-08-28</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Proper command line interface using the argparser library</li>
+</ul>
+<h2 id="on-2025-08-23">1.0.1 on 2025-08-23</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>PyYAML included as a dependency in
+<code>./pyproject.toml</code></li>
+</ul>
+<h2 id="on-2025-08-23-1">1.0.0 on 2025-08-23</h2>
+<h3 id="added-1">Added</h3>
+<ul>
+<li>Initial project release</li>
+</ul>
 </body>
 </html>

@@ -214,4 +214,6 @@ surrounded by parenthesis:
 
 # SEE ALSO
 
-Source code can be found at <https://github.com/ctwiebe23/kera>
+Source code can be found at <https://github.com/ctwiebe23/kera>.
+
+Changelog can be found at <https://ctwiebe23.github.io/kera/changelog>.

@@ -122,9 +122,14 @@ def process(plate, data):
     i = 0  # The current index inside the template
     buffer = ""  # The populated template, built character-by-character
     key = ""  # The current key, as read from the template
-    join_str = "\n"  # The current join string, as read from the template.  Defaults to a newline
+    join_str = None  # The user-specified join string, as read from the template.
     condition_status = True  # The status of the current slot condition
     current_position = Position.IDLE  # The current position in the template
+    indent = ""  # A string representing the current indent
+    in_indent = True
+
+    def get_default_join_str():
+        return "\n" + indent
 
     def reprocess():
         """
@@ -145,6 +150,19 @@ def process(plate, data):
                     current_position = Position.ESCAPED
                 else:
                     buffer += char
+                    if not in_indent:
+                        if char == "\n":
+                            indent = ""
+                            in_indent = True
+                    else:
+                        if char == " ":
+                            indent += " "
+                        elif char == "\t":
+                            indent += "\t"
+                        elif char == "\n":
+                            indent = ""
+                        else:
+                            in_indent = False
 
             case Position.ESCAPED:
                 if char != "#":
@@ -295,10 +313,12 @@ def process(plate, data):
                     if hasattr(sub_datas, "__iter__"):
                         results = map(sub_process, sub_datas)
                         results = filter(lambda r: r, results)  # Ignore empty strings
+                        if join_str is None:
+                            join_str = get_default_join_str()
                         buffer += join_str.join(results)
                     else:
                         print(f"expected key with type 'list' found {type(sub_datas)}")
-                    join_str = "\n"  # Reset join string after use
+                    join_str = None  # Reset join string after use
                     current_position = Position.IDLE
                     i = end_index + 1  # Skip closing body brackets
 
@@ -306,14 +326,14 @@ def process(plate, data):
                 if char == ")":
                     current_position = Position.COLLECTION_JOIN_AFTER
                 elif char == "\\":
-                    # All characters can be escaped in a join string
                     i += 1
                     if i < len(plate):
                         escaped_char = plate[i]
                         join_str += (
                             "\n" if escaped_char == "n"
                             else "\t" if escaped_char == "t"
-                            else escaped_char
+                            else ")" if escaped_char == ")"
+                            else "\\" + escaped_char
                         )
                 else:
                     join_str += char
@@ -340,23 +360,23 @@ def main():
         description="Fill template files with structured data",
         epilog="README can be found at https://ctwiebe23.github.io/kera",
     )
-    
+
     parser.add_argument(
         "files",
         nargs="*",
         help="The input files, both data and plate"
     )
-    
+
     parser.add_argument(
         "-o", "--out-dir",
         default=".",
         help="The directory in which to write all files; defaults to the current directory",
     )
-    
+
     args = parser.parse_args()
     out_dir = Path(args.out_dir)
     files = map(Path, args.files)
-    
+
     if not out_dir.is_dir():
         try:
             out_dir.mkdir()
