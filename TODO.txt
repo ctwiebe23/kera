@@ -1,7 +1,6 @@
 allow the escaping of closing body brackets @feature
-out file key @documentation
-dot notation @documentation
 implement proper conditions @feature
 implement key fallback to upper terms @feature
-cli vs api @documentation
 normal collections @feature
+iterator
+accept directories as CLAs

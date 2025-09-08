@@ -14,16 +14,22 @@ kera — Fill template files with structured data
 
 # INSTALL
 
-kera can be installed using the pip package manager.
+kera can be installed using the pip package manager, where it is available
+under the name [kera][].
 
-    pipx install kera
+To install just the executable command line interface, I would use [pipx][]:
+
+```
+pipx install kera
+```
+
+To install it as a library, use [pip][] and a [venv][].
 
 # DESCRIPTION
 
-This program takes a collection of template files (.plate) and a collection of
-data files (.json or .yaml) and then uses the data to fill placeholder "slots"
-in the templates.  Each individual data file produces an output for each
-individual template file.
+This program takes a collection of template files, a collection of data files,
+and then uses the data to fill placeholder "slots" in the templates.  Each
+individual data file produces an output for each individual template file.
 
 To represent a simple slot in a template file, surround it in double hashes:
 
@@ -36,7 +42,7 @@ by ##name## on ##date##
 
 And provide the data in your format of choice:
 
-```
+```json
 {
     "title": "kera",
     "name": "C Wiebe",
@@ -47,7 +53,7 @@ And provide the data in your format of choice:
 
 This results in:
 
-```
+```typ
 = kera
 by C Wiebe on JAN 01 1970
 
@@ -75,23 +81,24 @@ conditional slot
 collection slot
 :   A slot whose key points to a collection of nested data
 
-## FILENAMES
+## AS AN EXECUTABLE
 
-Template files can have the extension .plate, but any file that isn't a data
-file will be read as a template by default.
+The executable version of kera has the name `kera` and takes any number of
+filenames as its arguments.
 
-Supported data filetypes are:
+Template files can have the extension `.plate`, but any file that isn't a data
+file will be read as a template by default.  Supported data filetypes are:
 
 - JSON
 - YAML
 
-If you want to use a data file as a template file, it must have the .plate
-extension, e.g. .json.plate
+If you want to use a data file as a template file, it *must* have the `.plate`
+extension, e.g. `.json.plate`.
 
 The default filename of the filled template is the name of the data file (minus
 extension), an underscore, and the name of the template file (with extension,
-minus .plate if present).  These output files can be redirected to a different
-directory with the \--out option.
+minus `.plate` if present).  These output files can be redirected to a
+different directory with the `--out` option.
 
 As an example:
 
@@ -103,10 +110,40 @@ $ ls output
 > abc_123.sql abc_456.sql def_123.sql def_456.sql
 ```
 
+## AS A LIBRARY
+
+The library version of kera has the name `kera` and provides one function:
+
+```py
+process(plate: str, data: dict[str, any]) -> str
+```
+
+This function takes a `plate` (a string containing the template text whose
+slots will be filled) and a `data` (a dictionary containing the key / value
+pairs that will be used to populate the template).  The function will fill
+all the template slots using the data and then returns the populated template
+string.
+
+As a simple example:
+
+```py
+import kera
+
+plate = "Hello, ##name##!"
+data = {
+    "name": "World",
+}
+
+result = kera.process(plate, data)
+print(result)
+#> Hello, World!
+```
+
 ## CONDITIONAL SLOTS
 
-kera also supports other types of slots.  Conditional slots (analogous to if
-statements) can be represented as such:
+kera supports additional types of slots that introduce additional
+functionality.  Conditional slots (analogous to if statements) can be
+represented as such:
 
 ```
 ##[ condition ]{{ if true }}{{ if false (optional) }}
@@ -138,7 +175,7 @@ An example of conditional slots in use:
 
 With this, you can process both full profiles:
 
-```
+```yaml
 name: Scofflaw Saxwulf
 pronouns: he/him
 language: ENG | FIN
@@ -146,7 +183,7 @@ join-date: AUG 23 2025
 desc: <p>INSERT INTERESTING BIO HERE</p>
 ```
 
-```
+```html
 <div class="profile">
     <h3>Scofflaw Saxwulf</h3>
     <ul class="inline">
@@ -160,12 +197,12 @@ desc: <p>INSERT INTERESTING BIO HERE</p>
 
 And partial profiles:
 
-```
+```yaml
 name: Lusaka Hernesto
 pronouns: she/her
 ```
 
-```
+```html
 <div class="profile">
     <h3>Lusaka Hernesto</h3>
     <ul class="inline">
@@ -189,7 +226,7 @@ In a collection body, the "scope" that contains available keys is not the
 original data, but rather the keys nested inside the collection key.  This
 is easier shown than explained:
 
-```
+```yaml
 table: Person
 joins:
   - table: Place
@@ -213,7 +250,7 @@ FROM    ##table##
 }};
 ```
 
-```
+```sql
 SELECT  *
 FROM    Person
 JOIN    Place a ON addressId = a.id
@@ -225,7 +262,7 @@ By default each member of the collection is joined with a newline, but you
 can alter this by providing a join string before the collection body that is
 surrounded by parenthesis:
 
-```
+```yaml
 table: Record
 columns:
   - name: create_date
@@ -263,7 +300,7 @@ BEGIN
 END insert_into_##table##;
 ```
 
-```
+```sql
 CREATE PROCEDURE insert_into_Record
 ( p_create_date IN DATE
 , p_update_date IN DATE
@@ -288,6 +325,30 @@ BEGIN
 END insert_into_Record;
 ```
 
+## APPENDIX
+
+### ACCESSING NESTED VALUES
+
+Say you have a nested object like so:
+
+```json
+{
+    "parent": {
+        "child": "value"
+    }
+}
+```
+
+In these instances, the values within the nested object can be accessed using
+dot notation, e.g. `##parent.child##`.
+
+### OVERRIDING DEFAULT NAMES
+
+The default name of an output file produced by the executable can be overriden
+by including the key `_out_file` in the data file, where the value of
+`_out_file` is the name of the resulting file.  If that data file is used with
+multiple plate files, it will result in the same name each time.
+
 # RETURN CODES
 
 0
@@ -303,7 +364,7 @@ END insert_into_Record;
     tries to retrieve it as a string.  To prevent this, surround such keys with
     double quotes:
 
-    ```
+    ```yaml
     # bad:
     1: this won't be resolved
     # good:
@@ -312,6 +373,13 @@ END insert_into_Record;
 
 # SEE ALSO
 
-Source code can be found at <https://github.com/ctwiebe23/kera>.
+-   [Source code][source]
+-   [Online README][kera]
+-   [CHANGELOG][changelog]
 
-Changelog can be found at <https://ctwiebe23.github.io/kera/changelog>.
+[pipx]: https://github.com/pypa/pipx
+[pip]: https://pypi.org/project/pip/
+[venv]: https://packaging.python.org/en/latest/tutorials/installing-packages/#creating-and-using-virtual-environments
+[kera]: https://ctwiebe23.github.io/kera
+[source]: https://github.com/ctwiebe23/kera
+[changelog]: https://ctwiebe23.github.io/kera/changelog

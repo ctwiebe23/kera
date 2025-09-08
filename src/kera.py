@@ -47,7 +47,7 @@ class Position(Flag):
 VALID_KEY_CHARS = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890-_."
 WHITESPACE_CHARS = " \t\n"
 
-def resolve_key(data, key):
+def resolve_key(data: dict[str, any], key: str) -> any:
     """
     Returns the value of the key as found within the data.  If no record
     exists, returns an empty string.  Uses dot notation to get keys within
@@ -63,19 +63,19 @@ def resolve_key(data, key):
 
         return ""
 
-    if key in data:
-        return data[key] if data[key] is not None else ""
+    if key in data and data[key] is not None:
+        return data[key]
 
     return ""
 
-def trim_body(body):
+def trim_body(body: str) -> str:
     """
     Returns the given body with trimmed whitespace.
     """
     start_index = 0
     end_index = len(body) - 1
 
-    def safe():
+    def safe() -> bool:
         """
         Returns whether or not the start index and end index are valid values.
         """
@@ -87,9 +87,9 @@ def trim_body(body):
     while safe() and body[end_index] in WHITESPACE_CHARS:
         end_index -= 1
 
-    return body[start_index:end_index+1]
+    return body[start_index:end_index + 1]
 
-def get_body_end(plate, start_index):
+def get_body_end(plate: str, start_index: int) -> int:
     """
     Returns the index of the end of the slot body that starts at the given
     start index.  The returned index is exclusive, and if there is no end
@@ -98,10 +98,7 @@ def get_body_end(plate, start_index):
     num_open = 0
     i = start_index
 
-    while i < len(plate):
-        if i == len(plate) - 1:
-            return -1
-
+    while i < len(plate) - 1:
         if plate[i:i+2] == "}}":
             if num_open == 0:
                 return i
@@ -114,7 +111,9 @@ def get_body_end(plate, start_index):
 
         i += 1
 
-def process(plate, data):
+    return -1
+
+def process(plate: str, data: dict[str, any]) -> str:
     """
     Process the given string template using the given data.  Returns the
     populated template.
@@ -122,13 +121,13 @@ def process(plate, data):
     i = 0  # The current index inside the template
     buffer = ""  # The populated template, built character-by-character
     key = ""  # The current key, as read from the template
-    join_str = None  # The user-specified join string, as read from the template.
+    join_str = None  # The user-specified join string, as read from the template
     condition_status = True  # The status of the current slot condition
     current_position = Position.IDLE  # The current position in the template
     indent = ""  # A string representing the current indent
-    in_indent = True
+    in_indent = True  # Whether or not the program is inside a line's indent
 
-    def get_default_join_str():
+    def get_default_join_str() -> str:
         return "\n" + indent
 
     def reprocess():
@@ -411,13 +410,16 @@ def main():
 
     for plate, plate_name in plates:
         for data, data_name in datas:
-            if OUT_FILE_KEY in data:
+            if OUT_FILE_KEY in data and data[OUT_FILE_KEY] is not None:
                 # Override output filename
-                name = data[OUT_FILE_KEY]
+                name = str(data[OUT_FILE_KEY])
             else:
                 name = data_name + "_" + plate_name
             result = process(plate, data)
-            (out_dir / Path(name)).write_text(result)
+            try:
+                (out_dir / Path(name)).write_text(result)
+            except:
+                print(f"unable to create file {name} in directory {out_dir}")
 
 if __name__ == "__main__":
     main()

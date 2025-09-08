@@ -24,6 +24,70 @@ margin: 0 0.8em 0.2em -1.6em;
 vertical-align: middle;
 }
 .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
   <style type="text/css">* {
 padding:0;
@@ -43,6 +107,8 @@ box-sizing:border-box;
 --fg:light-dark(#292222, #e0e0e8);
 --bg:light-dark(#fff, #1c1c1f);
 --link:light-dark(#c25, #69f);
+--code-fg:light-dark(#292222, #1c1c1f);
+--code-bg:light-dark(#e0e0e8, #e0e0e8);
 font:var(--font-size) / 1.5 var(--font-family);
 hyphens:auto;
 color:var(--fg);
@@ -90,6 +156,17 @@ margin-bottom:var(--md);
 ol, ul {
 margin-left:var(--indent);
 }
+p {
+margin-block:var(--md);
+}
+@media (width > 700px) {
+p {
+text-align:justify;
+}
+}
+p.subtitle {
+margin:0;
+}
 p.author, p.date {
 display:inline;
 }
@@ -99,21 +176,17 @@ content:'by ';
 p.date::before {
 content:'on ';
 }
-p {
-margin-block:var(--md);
-}
-@media (width > 700px) {
-p {
-text-align:justify;
-}
-}
 hr {
 margin-block:var(--lg);
 }
+code {
+font-family:var(--mono-family);
+}
 pre > code {
 display:block;
-color:var(--bg);
-background:var(--fg);
+color:var(--code-fg);
+background:var(--code-bg);
+border-radius:0.5rem;
 padding:var(--md);
 margin-block:var(--md);
 white-space:pre;
@@ -134,9 +207,6 @@ text-decoration:none;
 }
 a:hover {
 text-decoration:underline var(--rule) solid currentcolor;
-}
-code {
-font-family:var(--mono-family);
 }
 </style>
   <link href="data:text/html; charset=utf-8;charset=utf-8,%3Chtml%20lang%3D%22en%22%20dir%3Dltr%3E%3Cmeta%20charset%3Dutf%2D8%3E%3Cmeta%20name%3Dviewport%20content%3D%22initial%2Dscale%3D1%2C%20minimum%2Dscale%3D1%2C%20width%3Ddevice%2Dwidth%22%3E%3Ctitle%3EError%20404%20%28Not%20Found%29%21%211%3C%2Ftitle%3E%3Cstyle%3E%2A%7Bmargin%3A0%3Bpadding%3A0%7Dhtml%2Ccode%7Bfont%3A15px%2F22px%20arial%2Csans%2Dserif%7Dhtml%7Bbackground%3A%23fff%3Bcolor%3A%23222%3Bpadding%3A15px%7Dbody%7Bcolor%3A%23222%3Btext%2Dalign%3Aunset%3Bmargin%3A7%25%20auto%200%3Bmax%2Dwidth%3A390px%3Bmin%2Dheight%3A180px%3Bpadding%3A30px%200%2015px%3B%7D%2A%20%3E%20body%7Bbackground%3Aurl%28%2F%2Fwww%2Egoogle%2Ecom%2Fimages%2Ferrors%2Frobot%2Epng%29%20100%25%205px%20no%2Drepeat%3Bpadding%2Dright%3A205px%7Dp%7Bmargin%3A11px%200%2022px%3Boverflow%3Ahidden%7Dpre%7Bwhite%2Dspace%3Apre%2Dwrap%3B%7Dins%7Bcolor%3A%23777%3Btext%2Ddecoration%3Anone%7Da%20img%7Bborder%3A0%7D%40media%20screen%20and%20%28max%2Dwidth%3A772px%29%7Bbody%7Bbackground%3Anone%3Bmargin%2Dtop%3A0%3Bmax%2Dwidth%3Anone%3Bpadding%2Dright%3A0%7D%7D%23logo%7Bbackground%3Aurl%28%2F%2Fwww%2Egoogle%2Ecom%2Fimages%2Fbranding%2Fgooglelogo%2F1x%2Fgooglelogo%5Fcolor%5F150x54dp%2Epng%29%20no%2Drepeat%3Bmargin%2Dleft%3A%2D5px%7D%40media%20only%20screen%20and%20%28min%2Dresolution%3A192dpi%29%7B%23logo%7Bbackground%3Aurl%28%2F%2Fwww%2Egoogle%2Ecom%2Fimages%2Fbranding%2Fgooglelogo%2F2x%2Fgooglelogo%5Fcolor%5F150x54dp%2Epng%29%20no%2Drepeat%200%25%200%25%2F100%25%20100%25%3B%2Dmoz%2Dborder%2Dimage%3Aurl%28%2F%2Fwww%2Egoogle%2Ecom%2Fimages%2Fbranding%2Fgooglelogo%2F2x%2Fgooglelogo%5Fcolor%5F150x54dp%2Epng%29%200%7D%7D%40media%20only%20screen%20and%20%28%2Dwebkit%2Dmin%2Ddevice%2Dpixel%2Dratio%3A2%29%7B%23logo%7Bbackground%3Aurl%28%2F%2Fwww%2Egoogle%2Ecom%2Fimages%2Fbranding%2Fgooglelogo%2F2x%2Fgooglelogo%5Fcolor%5F150x54dp%2Epng%29%20no%2Drepeat%3B%2Dwebkit%2Dbackground%2Dsize%3A100%25%20100%25%7D%7D%23logo%7Bdisplay%3Ainline%2Dblock%3Bheight%3A54px%3Bwidth%3A150px%7D%3C%2Fstyle%3E%3Cmain%20id%3D%22af%2Derror%2Dcontainer%22%20role%3D%22main%22%3E%3Ca%20href%3D%2F%2Fwww%2Egoogle%2Ecom%3E%3Cspan%20id%3Dlogo%20aria%2Dlabel%3DGoogle%20role%3Dimg%3E%3C%2Fspan%3E%3C%2Fa%3E%3Cp%3E%3Cb%3E404%2E%3C%2Fb%3E%20%3Cins%3EThat%E2%80%99s%20an%20error%2E%3C%2Fins%3E%3Cp%3EThe%20requested%20URL%20was%20not%20found%20on%20this%20server%2E%20%3Cins%3EThat%E2%80%99s%20all%20we%20know%2E%3C%2Fins%3E%3C%2Fmain%3E" rel="preconnect">
@@ -266,11 +336,18 @@ src: url(data:font/ttf;base64,AAEAAAARAQAABAAQR0RFRgvRCskAAAJgAAAAckdQT1Ndqu7ZAA
 <li><a href="#description" id="toc-description">DESCRIPTION</a>
 <ul>
 <li><a href="#glossary" id="toc-glossary">GLOSSARY</a></li>
-<li><a href="#filenames" id="toc-filenames">FILENAMES</a></li>
+<li><a href="#as-an-executable" id="toc-as-an-executable">AS AN
+EXECUTABLE</a></li>
+<li><a href="#as-a-library" id="toc-as-a-library">AS A LIBRARY</a></li>
 <li><a href="#conditional-slots" id="toc-conditional-slots">CONDITIONAL
 SLOTS</a></li>
 <li><a href="#collection-slots" id="toc-collection-slots">COLLECTION
 SLOTS</a></li>
+<li><a href="#appendix" id="toc-appendix">APPENDIX</a>
+<ul>
+<li><a href="#accessing-nested-values" id="toc-accessing-nested-values">ACCESSING NESTED VALUES</a></li>
+<li><a href="#overriding-default-names" id="toc-overriding-default-names">OVERRIDING DEFAULT NAMES</a></li>
+</ul></li>
 </ul></li>
 <li><a href="#return-codes" id="toc-return-codes">RETURN CODES</a></li>
 <li><a href="#bugs" id="toc-bugs">BUGS</a></li>
@@ -290,13 +367,16 @@ directory.
 </dd>
 </dl>
 <h1 id="install">INSTALL</h1>
-<p>kera can be installed using the pip package manager.</p>
+<p>kera can be installed using the pip package manager, where it is
+available under the name <a href="https://ctwiebe23.github.io/kera">kera</a>.</p>
+<p>To install just the executable command line interface, I would use <a href="https://github.com/pypa/pipx">pipx</a>:</p>
 <pre><code>pipx install kera</code></pre>
+<p>To install it as a library, use <a href="https://pypi.org/project/pip/">pip</a> and a <a href="https://packaging.python.org/en/latest/tutorials/installing-packages/#creating-and-using-virtual-environments">venv</a>.</p>
 <h1 id="description">DESCRIPTION</h1>
-<p>This program takes a collection of template files (.plate) and a
-collection of data files (.json or .yaml) and then uses the data to fill
-placeholder “slots” in the templates. Each individual data file produces
-an output for each individual template file.</p>
+<p>This program takes a collection of template files, a collection of
+data files, and then uses the data to fill placeholder “slots” in the
+templates. Each individual data file produces an output for each
+individual template file.</p>
 <p>To represent a simple slot in a template file, surround it in double
 hashes:</p>
 <pre><code>= ##title##
@@ -304,14 +384,14 @@ by ##name## on ##date##
 
 ##content##</code></pre>
 <p>And provide the data in your format of choice:</p>
-<pre><code>{
-    &quot;title&quot;: &quot;kera&quot;,
-    &quot;name&quot;: &quot;C Wiebe&quot;,
-    &quot;date&quot;: &quot;JAN 01 1970&quot;,
-    &quot;content&quot;: &quot;Fill template files with structured data.&quot;
-}</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;title&quot;</span><span class="fu">:</span> <span class="st">&quot;kera&quot;</span><span class="fu">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;C Wiebe&quot;</span><span class="fu">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;date&quot;</span><span class="fu">:</span> <span class="st">&quot;JAN 01 1970&quot;</span><span class="fu">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;content&quot;</span><span class="fu">:</span> <span class="st">&quot;Fill template files with structured data.&quot;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 <p>This results in:</p>
-<pre><code>= kera
+<pre class="typ"><code>= kera
 by C Wiebe on JAN 01 1970
 
 Fill template files with structured data.</code></pre>
@@ -345,29 +425,54 @@ A slot that has a condition attached to it
 A slot whose key points to a collection of nested data
 </dd>
 </dl>
-<h2 id="filenames">FILENAMES</h2>
-<p>Template files can have the extension .plate, but any file that isn’t
-a data file will be read as a template by default.</p>
-<p>Supported data filetypes are:</p>
+<h2 id="as-an-executable">AS AN EXECUTABLE</h2>
+<p>The executable version of kera has the name <code>kera</code> and
+takes any number of filenames as its arguments.</p>
+<p>Template files can have the extension <code>.plate</code>, but any
+file that isn’t a data file will be read as a template by default.
+Supported data filetypes are:</p>
 <ul>
 <li>JSON</li>
 <li>YAML</li>
 </ul>
-<p>If you want to use a data file as a template file, it must have the
-.plate extension, e.g. .json.plate</p>
+<p>If you want to use a data file as a template file, it <em>must</em>
+have the <code>.plate</code> extension,
+e.g. <code>.json.plate</code>.</p>
 <p>The default filename of the filled template is the name of the data
 file (minus extension), an underscore, and the name of the template file
-(with extension, minus .plate if present). These output files can be
-redirected to a different directory with the --out option.</p>
+(with extension, minus <code>.plate</code> if present). These output
+files can be redirected to a different directory with the
+<code>--out</code> option.</p>
 <p>As an example:</p>
 <pre><code>$ ls
 &gt; 123.sql 456.sql.plate abc.json def.yml
 $ kera --out output 123.sql 456.sql.plate abc.json def.yml
 $ ls output
 &gt; abc_123.sql abc_456.sql def_123.sql def_456.sql</code></pre>
+<h2 id="as-a-library">AS A LIBRARY</h2>
+<p>The library version of kera has the name <code>kera</code> and
+provides one function:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>process(plate: <span class="bu">str</span>, data: <span class="bu">dict</span>[<span class="bu">str</span>, <span class="bu">any</span>]) <span class="op">-&gt;</span> <span class="bu">str</span></span></code></pre></div>
+<p>This function takes a <code>plate</code> (a string containing the
+template text whose slots will be filled) and a <code>data</code> (a
+dictionary containing the key / value pairs that will be used to
+populate the template). The function will fill all the template slots
+using the data and then returns the populated template string.</p>
+<p>As a simple example:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> kera</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>plate <span class="op">=</span> <span class="st">&quot;Hello, ##name##!&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;name&quot;</span>: <span class="st">&quot;World&quot;</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> kera.process(plate, data)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Hello, World!</span></span></code></pre></div>
 <h2 id="conditional-slots">CONDITIONAL SLOTS</h2>
-<p>kera also supports other types of slots. Conditional slots (analogous
-to if statements) can be represented as such:</p>
+<p>kera supports additional types of slots that introduce additional
+functionality. Conditional slots (analogous to if statements) can be
+represented as such:</p>
 <pre><code>##[ condition ]{{ if true }}{{ if false (optional) }}</code></pre>
 <p>The condition is simply a key found in the data, and it is true if
 the value of the key is truthy according to Python. If the key is not
@@ -389,77 +494,77 @@ inside it and nest slots as much as you wish.</p>
     }}
 &lt;/div&gt;</code></pre>
 <p>With this, you can process both full profiles:</p>
-<pre><code>name: Scofflaw Saxwulf
-pronouns: he/him
-language: ENG | FIN
-join-date: AUG 23 2025
-desc: &lt;p&gt;INSERT INTERESTING BIO HERE&lt;/p&gt;</code></pre>
-<pre><code>&lt;div class=&quot;profile&quot;&gt;
-    &lt;h3&gt;Scofflaw Saxwulf&lt;/h3&gt;
-    &lt;ul class=&quot;inline&quot;&gt;
-        &lt;li&gt;he/him&lt;/li&gt;
-        &lt;li&gt;ENG | FIN&lt;/li&gt;
-        &lt;li&gt;Joined AUG 23 2025&lt;/li&gt;
-    &lt;/ul&gt;
-    &lt;p&gt;INSERT INTERESTING BIO HERE&lt;/p&gt;
-&lt;/div&gt;</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> Scofflaw Saxwulf</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pronouns</span><span class="kw">:</span><span class="at"> he/him</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">language</span><span class="kw">:</span><span class="at"> ENG | FIN</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">join-date</span><span class="kw">:</span><span class="at"> AUG 23 2025</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">desc</span><span class="kw">:</span><span class="at"> &lt;p&gt;INSERT INTERESTING BIO HERE&lt;/p&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;profile&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">h3</span><span class="dt">&gt;</span>Scofflaw Saxwulf<span class="dt">&lt;/</span><span class="kw">h3</span><span class="dt">&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">ul</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;inline&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>he/him<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>ENG | FIN<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Joined AUG 23 2025<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">ul</span><span class="dt">&gt;</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>INSERT INTERESTING BIO HERE<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
 <p>And partial profiles:</p>
-<pre><code>name: Lusaka Hernesto
-pronouns: she/her</code></pre>
-<pre><code>&lt;div class=&quot;profile&quot;&gt;
-    &lt;h3&gt;Lusaka Hernesto&lt;/h3&gt;
-    &lt;ul class=&quot;inline&quot;&gt;
-        &lt;li&gt;she/her&lt;/li&gt;
-        
-        
-    &lt;/ul&gt;
-    &lt;p&gt;No bio provided.&lt;/p&gt;
-&lt;/div&gt;</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> Lusaka Hernesto</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pronouns</span><span class="kw">:</span><span class="at"> she/her</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;profile&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">h3</span><span class="dt">&gt;</span>Lusaka Hernesto<span class="dt">&lt;/</span><span class="kw">h3</span><span class="dt">&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">ul</span><span class="ot"> class</span><span class="op">=</span><span class="st">&quot;inline&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>she/her<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">ul</span><span class="dt">&gt;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>No bio provided.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span></code></pre></div>
 <h2 id="collection-slots">COLLECTION SLOTS</h2>
 <p>Collection slots (analogous to for loops) are represented as:</p>
 <pre><code>##collection{{ body for each collection member }}</code></pre>
 <p>In a collection body, the “scope” that contains available keys is not
 the original data, but rather the keys nested inside the collection key.
 This is easier shown than explained:</p>
-<pre><code>table: Person
-joins:
-  - table: Place
-    alias: a
-    join-on: addressId
-
-  - table: Place
-    alias: w
-    join-on: workAddressId
-
-  - table: Job
-    alias: j
-    join-on: workId</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span><span class="kw">:</span><span class="at"> Person</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">joins</span><span class="kw">:</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">table</span><span class="kw">:</span><span class="at"> Place</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">alias</span><span class="kw">:</span><span class="at"> a</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">join-on</span><span class="kw">:</span><span class="at"> addressId</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">table</span><span class="kw">:</span><span class="at"> Place</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">alias</span><span class="kw">:</span><span class="at"> w</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">join-on</span><span class="kw">:</span><span class="at"> workAddressId</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">table</span><span class="kw">:</span><span class="at"> Job</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">alias</span><span class="kw">:</span><span class="at"> j</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">join-on</span><span class="kw">:</span><span class="at"> workId</span></span></code></pre></div>
 <pre><code>SELECT  *
 FROM    ##table##
 ##joins{{
     JOIN    ##table## ##alias## ON ##join-on## = ##alias##.id
 }};</code></pre>
-<pre><code>SELECT  *
-FROM    Person
-JOIN    Place a ON addressId = a.id
-JOIN    Place w ON workAddressId = w.id
-JOIN    Job j ON workId = j.id;</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span>  <span class="op">*</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span>    Person</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span>    Place a <span class="kw">ON</span> addressId <span class="op">=</span> a.<span class="kw">id</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span>    Place w <span class="kw">ON</span> workAddressId <span class="op">=</span> w.<span class="kw">id</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span>    Job j <span class="kw">ON</span> workId <span class="op">=</span> j.<span class="kw">id</span>;</span></code></pre></div>
 <p>By default each member of the collection is joined with a newline,
 but you can alter this by providing a join string before the collection
 body that is surrounded by parenthesis:</p>
-<pre><code>table: Record
-columns:
-  - name: create_date
-    type: DATE
-
-  - name: update_date
-    type: DATE
-
-  - name: id
-    type: INTEGER
-
-  - name: content
-    type: TEXT</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span><span class="kw">:</span><span class="at"> Record</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">columns</span><span class="kw">:</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> create_date</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">type</span><span class="kw">:</span><span class="at"> DATE</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> update_date</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">type</span><span class="kw">:</span><span class="at"> DATE</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> id</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">type</span><span class="kw">:</span><span class="at"> INTEGER</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> content</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">type</span><span class="kw">:</span><span class="at"> TEXT</span></span></code></pre></div>
 <pre><code>CREATE PROCEDURE insert_into_##table##
 ( ##columns(\n, ){{
     p_##name## IN ##type##
@@ -479,28 +584,44 @@ BEGIN
             );
 
 END insert_into_##table##;</code></pre>
-<pre><code>CREATE PROCEDURE insert_into_Record
-( p_create_date IN DATE
-, p_update_date IN DATE
-, p_id IN INTEGER
-, p_content IN TEXT
-)
-BEGIN
-
-    INSERT
-    INTO    Record
-            ( create_date
-            , update_date
-            , id
-            , content
-            )
-    VALUES  ( p_create_date
-            , p_update_date
-            , p_id
-            , p_content
-            );
-
-END insert_into_Record;</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">PROCEDURE</span> insert_into_Record</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>( p_create_date <span class="kw">IN</span> <span class="dt">DATE</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>, p_update_date <span class="kw">IN</span> <span class="dt">DATE</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>, p_id <span class="kw">IN</span> <span class="dt">INTEGER</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>, p_content <span class="kw">IN</span> TEXT</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="cf">BEGIN</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">INSERT</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">INTO</span>    <span class="dt">Record</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>            ( create_date</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>            , update_date</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>            , <span class="kw">id</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>            , content</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">VALUES</span>  ( p_create_date</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>            , p_update_date</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>            , p_id</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>            , p_content</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>            );</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="cf">END</span> insert_into_Record;</span></code></pre></div>
+<h2 id="appendix">APPENDIX</h2>
+<h3 id="accessing-nested-values">ACCESSING NESTED VALUES</h3>
+<p>Say you have a nested object like so:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;parent&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;child&quot;</span><span class="fu">:</span> <span class="st">&quot;value&quot;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>In these instances, the values within the nested object can be
+accessed using dot notation, e.g. <code>##parent.child##</code>.</p>
+<h3 id="overriding-default-names">OVERRIDING DEFAULT NAMES</h3>
+<p>The default name of an output file produced by the executable can be
+overriden by including the key <code>_out_file</code> in the data file,
+where the value of <code>_out_file</code> is the name of the resulting
+file. If that data file is used with multiple plate files, it will
+result in the same name each time.</p>
 <h1 id="return-codes">RETURN CODES</h1>
 <dl>
 <dt>0</dt>
@@ -518,13 +639,16 @@ Unable to create or find the given output directory.
 parser will store it as an integer, which won’t be resolved properly
 when kera tries to retrieve it as a string. To prevent this, surround
 such keys with double quotes:</p>
-<pre><code># bad:
-1: this won&#39;t be resolved
-# good:
-&quot;1&quot;: this WILL be resolved</code></pre></li>
+<div class="sourceCode" id="cb22"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bad:</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">1</span><span class="kw">:</span><span class="at"> this won&#39;t be resolved</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># good:</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">&quot;1&quot;</span><span class="kw">:</span><span class="at"> this WILL be resolved</span></span></code></pre></div></li>
 </ol>
 <h1 id="see-also">SEE ALSO</h1>
-<p>Source code can be found at <a href="https://github.com/ctwiebe23/kera" class="uri">https://github.com/ctwiebe23/kera</a>.</p>
-<p>Changelog can be found at <a href="https://ctwiebe23.github.io/kera/changelog" class="uri">https://ctwiebe23.github.io/kera/changelog</a>.</p>
+<ul>
+<li><a href="https://github.com/ctwiebe23/kera">Source code</a></li>
+<li><a href="https://ctwiebe23.github.io/kera">Online README</a></li>
+<li><a href="https://ctwiebe23.github.io/kera/changelog">CHANGELOG</a></li>
+</ul>
 </body>
 </html>

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.2.1 on 2025-09-08
+
+### Changed
+
+- Annotated all types in function signatures
+
 ## 1.2.0 on 2025-09-04
 
 ### Changed
