@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<!doctype html>
+<html lang="en">
 <head>
-  <!-- md addition start -->
   <meta name="color-scheme" content="light dark" />
-  <!-- md addition end -->
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
@@ -125,9 +123,11 @@ font-size:2rem;
 font-weight:normal;
 }
 h1:not(.title) {
+border-top:var(--rule) solid var(--fg);
 font-size:1.5rem;
 font-weight:bold;
 margin-top:var(--lg);
+padding-top:var(--sm);
 letter-spacing:var(--tracking);
 text-transform:uppercase;
 }
@@ -156,7 +156,7 @@ margin-bottom:var(--md);
 ol, ul {
 margin-left:var(--indent);
 }
-p {
+:is(h1, h2, h3, h4, h6, p, ol, ul, dl, pre) + :is(p, ol, ul, dl, pre) {
 margin-block:var(--md);
 }
 @media (width > 700px) {
