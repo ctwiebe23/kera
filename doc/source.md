@@ -15,7 +15,7 @@ kera — Fill template files with structured data
 # INSTALL
 
 kera can be installed using the pip package manager, where it is available
-under the name [kera][].
+under the name [kera][pipy].
 
 To install just the executable command line interface, I would use [pipx][]:
 
@@ -276,12 +276,13 @@ multiple plate files, it will result in the same name each time.
 # SEE ALSO
 
 -   [Source code][source]
--   [Online README][kera]
+-   [Online README][ghpages]
 -   [CHANGELOG][changelog]
 
 [pipx]: https://github.com/pypa/pipx
 [pip]: https://pypi.org/project/pip/
 [venv]: https://packaging.python.org/en/latest/tutorials/installing-packages/#creating-and-using-virtual-environments
-[kera]: https://ctwiebe23.github.io/kera
+[ghpages]: https://ctwiebe23.github.io/kera
+[pipy]: https://pypi.org/project/kera/
 [source]: https://github.com/ctwiebe23/kera
 [changelog]: https://ctwiebe23.github.io/kera/changelog
