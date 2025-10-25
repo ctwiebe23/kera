@@ -4,3 +4,5 @@ implement key fallback to upper terms @feature
 normal collections @feature
 iterator
 accept directories as CLAs
+allow using double quotes to specify whitespace
+dsl
