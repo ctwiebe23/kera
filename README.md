@@ -222,9 +222,9 @@ Collection slots (analogous to for loops) are represented as:
 ##collection{{ body for each collection member }}
 ```
 
-In a collection body, the "scope" that contains available keys is not the
-original data, but rather the keys nested inside the collection key.  This
-is easier shown than explained:
+In a collection body, the "scope" that contains available keys now includes the
+keys nested within the collection key (when names conflict, the child keys
+override the parent keys).  This is easier shown than explained:
 
 ```yaml
 table: Person
@@ -245,17 +245,23 @@ joins:
 ```
 SELECT  *
 FROM    ##table##
+     -- ^ Table in the parent scope
 ##joins{{
-    JOIN    ##table## ##alias## ON ##join-on## = ##alias##.id
+JOIN    ##table## ##alias## ON ##join-on## = ##alias##.id
+     -- ^ Table in the child scope overrides parent scope
 }};
 ```
 
 ```sql
 SELECT  *
 FROM    Person
+     -- ^ Table in the parent scope
 JOIN    Place a ON addressId = a.id
+     -- ^ Table in the child scope overrides parent scope
 JOIN    Place w ON workAddressId = w.id
-JOIN    Job j ON workId = j.id;
+     -- ^ Table in the child scope overrides parent scope
+JOIN    Job j ON workId = j.id
+     -- ^ Table in the child scope overrides parent scope;
 ```
 
 By default each member of the collection is joined with a newline, but you

@@ -307,7 +307,7 @@ def process(plate: str, data: dict[str, any]) -> str:
                     reprocess()
                 else:
                     body = trim_body(plate[i:end_index])
-                    sub_process = lambda sub_data: process(body, sub_data)
+                    sub_process = lambda sub_data: process(body, data | sub_data)
                     sub_datas = resolve_key(data, key)
                     if hasattr(sub_datas, "__iter__"):
                         results = map(sub_process, sub_datas)

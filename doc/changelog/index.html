@@ -29,7 +29,7 @@ margin:0;
 box-sizing:border-box;
 }
 :root {
---rule:1px;
+--rule:2px;
 --sm:8px;
 --md:16px;
 --lg:32px;
@@ -92,7 +92,7 @@ margin-bottom:var(--md);
 ol, ul {
 margin-left:var(--indent);
 }
-:is(h1, h2, h3, h4, h6, p, ol, ul, dl, pre) + :is(p, ol, ul, dl, pre) {
+:is(h1, h2, h3, h4, h6, p, ol, ul, dl, pre, blockquote) + :is(p, ol, ul, dl, pre, blockquote) {
 margin-block:var(--md);
 }
 @media (width > 700px) {
@@ -114,9 +114,17 @@ content:'on ';
 }
 hr {
 margin-block:var(--lg);
+border:none;
+height:var(--rule);
+color:var(--fg);
+background:var(--fg);
 }
 code {
 font-family:var(--mono-family);
+}
+pre:has(code) {
+width:100%;
+overflow:auto;
 }
 pre > code {
 display:block;
@@ -126,7 +134,7 @@ border-radius:0.5rem;
 padding:var(--md);
 margin-block:var(--md);
 white-space:pre;
-overflow:auto;
+min-width:fit-content;
 }
 a {
 color:var(--link);
@@ -158,6 +166,10 @@ text-transform:lowercase;
 }
 nav#TOC a:hover::after {
 content:none;
+}
+blockquote {
+padding-left:var(--lg);
+border-left:var(--rule) solid var(--fg);
 }
 </style>
   <link href="data:text/html; charset=utf-8;charset=utf-8,%3Chtml%20lang%3D%22en%22%20dir%3Dltr%3E%3Cmeta%20charset%3Dutf%2D8%3E%3Cmeta%20name%3Dviewport%20content%3D%22initial%2Dscale%3D1%2C%20minimum%2Dscale%3D1%2C%20width%3Ddevice%2Dwidth%22%3E%3Ctitle%3EError%20404%20%28Not%20Found%29%21%211%3C%2Ftitle%3E%3Cstyle%3E%2A%7Bmargin%3A0%3Bpadding%3A0%7Dhtml%2Ccode%7Bfont%3A15px%2F22px%20arial%2Csans%2Dserif%7Dhtml%7Bbackground%3A%23fff%3Bcolor%3A%23222%3Bpadding%3A15px%7Dbody%7Bcolor%3A%23222%3Btext%2Dalign%3Aunset%3Bmargin%3A7%25%20auto%200%3Bmax%2Dwidth%3A390px%3Bmin%2Dheight%3A180px%3Bpadding%3A30px%200%2015px%3B%7D%2A%20%3E%20body%7Bbackground%3Aurl%28%2F%2Fwww%2Egoogle%2Ecom%2Fimages%2Ferrors%2Frobot%2Epng%29%20100%25%205px%20no%2Drepeat%3Bpadding%2Dright%3A205px%7Dp%7Bmargin%3A11px%200%2022px%3Boverflow%3Ahidden%7Dpre%7Bwhite%2Dspace%3Apre%2Dwrap%3B%7Dins%7Bcolor%3A%23777%3Btext%2Ddecoration%3Anone%7Da%20img%7Bborder%3A0%7D%40media%20screen%20and%20%28max%2Dwidth%3A772px%29%7Bbody%7Bbackground%3Anone%3Bmargin%2Dtop%3A0%3Bmax%2Dwidth%3Anone%3Bpadding%2Dright%3A0%7D%7D%23logo%7Bbackground%3Aurl%28%2F%2Fwww%2Egoogle%2Ecom%2Fimages%2Fbranding%2Fgooglelogo%2F1x%2Fgooglelogo%5Fcolor%5F150x54dp%2Epng%29%20no%2Drepeat%3Bmargin%2Dleft%3A%2D5px%7D%40media%20only%20screen%20and%20%28min%2Dresolution%3A192dpi%29%7B%23logo%7Bbackground%3Aurl%28%2F%2Fwww%2Egoogle%2Ecom%2Fimages%2Fbranding%2Fgooglelogo%2F2x%2Fgooglelogo%5Fcolor%5F150x54dp%2Epng%29%20no%2Drepeat%200%25%200%25%2F100%25%20100%25%3B%2Dmoz%2Dborder%2Dimage%3Aurl%28%2F%2Fwww%2Egoogle%2Ecom%2Fimages%2Fbranding%2Fgooglelogo%2F2x%2Fgooglelogo%5Fcolor%5F150x54dp%2Epng%29%200%7D%7D%40media%20only%20screen%20and%20%28%2Dwebkit%2Dmin%2Ddevice%2Dpixel%2Dratio%3A2%29%7B%23logo%7Bbackground%3Aurl%28%2F%2Fwww%2Egoogle%2Ecom%2Fimages%2Fbranding%2Fgooglelogo%2F2x%2Fgooglelogo%5Fcolor%5F150x54dp%2Epng%29%20no%2Drepeat%3B%2Dwebkit%2Dbackground%2Dsize%3A100%25%20100%25%7D%7D%23logo%7Bdisplay%3Ainline%2Dblock%3Bheight%3A54px%3Bwidth%3A150px%7D%3C%2Fstyle%3E%3Cmain%20id%3D%22af%2Derror%2Dcontainer%22%20role%3D%22main%22%3E%3Ca%20href%3D%2F%2Fwww%2Egoogle%2Ecom%3E%3Cspan%20id%3Dlogo%20aria%2Dlabel%3DGoogle%20role%3Dimg%3E%3C%2Fspan%3E%3C%2Fa%3E%3Cp%3E%3Cb%3E404%2E%3C%2Fb%3E%20%3Cins%3EThat%E2%80%99s%20an%20error%2E%3C%2Fins%3E%3Cp%3EThe%20requested%20URL%20was%20not%20found%20on%20this%20server%2E%20%3Cins%3EThat%E2%80%99s%20all%20we%20know%2E%3C%2Fins%3E%3C%2Fmain%3E" rel="preconnect">
@@ -282,7 +294,12 @@ src: url(data:font/ttf;base64,AAEAAAARAQAABAAQR0RFRgvRCskAAAJgAAAAckdQT1Ndqu7ZAA
 <ul>
 <li><a href="#changelog" id="toc-changelog">CHANGELOG</a>
 <ul>
-<li><a href="#on-2025-09-08" id="toc-on-2025-09-08">1.2.1 on
+<li><a href="#on-2025-09-08" id="toc-on-2025-09-08">1.3.0 on
+2025-09-08</a>
+<ul>
+<li><a href="#added" id="toc-added">Added</a></li>
+</ul></li>
+<li><a href="#on-2025-09-08-1" id="toc-on-2025-09-08-1">1.2.1 on
 2025-09-08</a>
 <ul>
 <li><a href="#changed" id="toc-changed">Changed</a></li>
@@ -295,7 +312,7 @@ src: url(data:font/ttf;base64,AAEAAAARAQAABAAQR0RFRgvRCskAAAJgAAAAckdQT1Ndqu7ZAA
 <li><a href="#on-2025-08-28" id="toc-on-2025-08-28">1.1.0 on
 2025-08-28</a>
 <ul>
-<li><a href="#added" id="toc-added">Added</a></li>
+<li><a href="#added-1" id="toc-added-1">Added</a></li>
 </ul></li>
 <li><a href="#on-2025-08-23" id="toc-on-2025-08-23">1.0.1 on
 2025-08-23</a>
@@ -305,13 +322,20 @@ src: url(data:font/ttf;base64,AAEAAAARAQAABAAQR0RFRgvRCskAAAJgAAAAckdQT1Ndqu7ZAA
 <li><a href="#on-2025-08-23-1" id="toc-on-2025-08-23-1">1.0.0 on
 2025-08-23</a>
 <ul>
-<li><a href="#added-1" id="toc-added-1">Added</a></li>
+<li><a href="#added-2" id="toc-added-2">Added</a></li>
 </ul></li>
 </ul></li>
 </ul>
 </nav>
 <h1 id="changelog">CHANGELOG</h1>
-<h2 id="on-2025-09-08">1.2.1 on 2025-09-08</h2>
+<h2 id="on-2025-09-08">1.3.0 on 2025-09-08</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Key fallback when in collection slots; keys from the parent scope
+will now be available in child scopes (but will be overridden by the
+child when names conflict)</li>
+</ul>
+<h2 id="on-2025-09-08-1">1.2.1 on 2025-09-08</h2>
 <h3 id="changed">Changed</h3>
 <ul>
 <li>Annotated all types in function signatures</li>
@@ -323,7 +347,7 @@ src: url(data:font/ttf;base64,AAEAAAARAQAABAAQR0RFRgvRCskAAAJgAAAAckdQT1Ndqu7ZAA
 the same level automatically)</li>
 </ul>
 <h2 id="on-2025-08-28">1.1.0 on 2025-08-28</h2>
-<h3 id="added">Added</h3>
+<h3 id="added-1">Added</h3>
 <ul>
 <li>Proper command line interface using the argparser library</li>
 </ul>
@@ -334,7 +358,7 @@ the same level automatically)</li>
 <code>./pyproject.toml</code></li>
 </ul>
 <h2 id="on-2025-08-23-1">1.0.0 on 2025-08-23</h2>
-<h3 id="added-1">Added</h3>
+<h3 id="added-2">Added</h3>
 <ul>
 <li>Initial project release</li>
 </ul>

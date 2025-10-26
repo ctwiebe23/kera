@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.3.0 on 2025-09-08
+
+### Added
+
+- Key fallback when in collection slots; keys from the parent scope will now
+  be available in child scopes (but will be overridden by the child when names
+  conflict)
+
 ## 1.2.1 on 2025-09-08
 
 ### Changed
