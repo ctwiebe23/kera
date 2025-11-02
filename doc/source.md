@@ -47,7 +47,7 @@ This results in:
 
 ```typ
 !((
-    ./venv/bin/python3 src/kera.py \
+    ./.venv/bin/python3 src/kera.py \
         par/simple_document.typ par/simple_metadata.json \
         --out par
     cat par/simple_metadata_simple_document.typ
@@ -163,7 +163,7 @@ With this, you can process both full profiles:
 
 ```html
 !((
-    ./venv/bin/python3 src/kera.py par/profile.html par/scofflaw.yml -o par
+    ./.venv/bin/python3 src/kera.py par/profile.html par/scofflaw.yml -o par
     cat par/scofflaw_profile.html
 ))!
 ```
@@ -176,7 +176,7 @@ And partial profiles:
 
 ```html
 !((
-    ./venv/bin/python3 src/kera.py par/profile.html par/lusaka.yml -o par
+    ./.venv/bin/python3 src/kera.py par/profile.html par/lusaka.yml -o par
     cat par/lusaka_profile.html
 ))!
 ```
@@ -203,7 +203,7 @@ override the parent keys).  This is easier shown than explained:
 
 ```sql
 !((
-    ./venv/bin/python3 src/kera.py par/select.sql par/table.yml -o par
+    ./.venv/bin/python3 src/kera.py par/select.sql par/table.yml -o par
     cat par/table_select.sql
 ))!
 ```
@@ -222,7 +222,7 @@ surrounded by parenthesis:
 
 ```sql
 !((
-    ./venv/bin/python3 src/kera.py par/select_columns.sql par/columns.yml -o par
+    ./.venv/bin/python3 src/kera.py par/select_columns.sql par/columns.yml -o par
     cat par/columns_select_columns.sql
 ))!
 ```
